@@ -61,18 +61,18 @@ resource helm_release argo {
 }
 
 resource kubernetes_manifest argo {
-  #provider = kubernetes-alpha
+  provider = kubernetes-alpha
 
   manifest = {
     "apiVersion" = "argoproj.io/v1alpha1"
     "kind"       = "Application"
     "metadata"   = {
       "name"      = "argo"
-      "namespace" = "argo"
+      "namespace" = kubernetes_namespace.argo.metadata[0].name
     }
     "spec" = {
-      "project" = "default"
-      "source"  = {
+      "project"     = "default"
+      "source"      = {
         "repoURL"        = "https://github.com/okmvp/docker-desktop-k8s.git"
         "targetRevision" = "main"
         "path"           = "helm/operator/argo/"
@@ -83,17 +83,15 @@ resource kubernetes_manifest argo {
           ]
           "version"    = "v2"
         } 
-        "destination"    = {
-          "server"    = "https://kubernetes.default.svc"
-          "namespace" = kubernetes_namespace.argo.metadata[0].name
-        }
-        "syncPolicy"     = {
-          "syncOptions" = [
-            {
-              "Validate" = true
-            },
-          ]
-        }
+      }
+      "destination" = {
+        "server"    = "https://kubernetes.default.svc"
+        "namespace" = kubernetes_namespace.argo.metadata[0].name
+      }
+      "syncPolicy"  = {
+        "syncOptions" = [
+          "Validate=true",
+        ]
       }
     }
   }
