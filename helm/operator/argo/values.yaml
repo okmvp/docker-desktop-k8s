@@ -1,14 +1,15 @@
-server:
-  extraArgs:
-  - --insecure
-  ingress:
-    enabled: true
-    annotations:
-      kubernetes.io/ingress.class: nginx
-    hosts:
-    - ""
-  config:
-    url: ""
-    repositories: |
-    - url: https://github.com/okmvp/docker-desktop-k8s.git
-    - url: https://github.com/ghilbut/byfs-modules.git
+cd:
+  server:
+    extraArgs:
+    - --insecure
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: nginx
+      hosts:
+      - ""
+    config:
+      url: ""
+      repositories: |
+      - url: https://github.com/okmvp/docker-desktop-k8s.git
+      - url: https://github.com/ghilbut/byfs-modules.git
