@@ -11,5 +11,5 @@ cd:
     config:
       url: ""
       repositories: |
-      - url: https://github.com/okmvp/docker-desktop-k8s.git
-      - url: https://github.com/ghilbut/byfs-modules.git
+        - url: https://github.com/okmvp/docker-desktop-k8s.git
+        - url: https://github.com/ghilbut/byfs-modules.git
