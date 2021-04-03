@@ -79,16 +79,6 @@ resource kubernetes_manifest argo {
         targetRevision = "feature/argo-by-argo"
         path           = "helm/operator/argo/"
         helm           = {
-          parameters = [
-            {
-              name  = "argo-cd.server.ingress.hosts[0]"
-              value = local.argo_host
-            },
-            {
-              name  = "argo-cd.server.config.url"
-              value = "http://${local.argo_host}"
-            },
-          ]
           valueFiles = [
             "values.yaml",
           ]
