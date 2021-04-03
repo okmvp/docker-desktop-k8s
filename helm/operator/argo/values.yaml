@@ -11,7 +11,7 @@ cd:
       hosts:
       - argo.okmvp.internal
     config:
-      url: argo.okmvp.internal
+      url: http://argo.okmvp.internal
       repositories: |
         - url: https://github.com/okmvp/docker-desktop-k8s.git
         - url: https://github.com/ghilbut/byfs-modules.git
