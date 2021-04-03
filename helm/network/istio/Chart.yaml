@@ -9,3 +9,12 @@ dependencies:
 - name: base
   version: 1.9.2
   repository: file://./dependencies/istio-1.9.2-charts/base
+- name: istiod
+  version: 1.9.2
+  repository: file://./dependencies/istio-1.9.2-charts/istio-control/istio-discovery
+- name: istio-ingress
+  version: 1.9.2
+  repository: file://./dependencies/istio-1.9.2-charts/gateways/istio-ingress
+- name: istio-egress
+  version: 1.9.2
+  repository: file://./dependencies/istio-1.9.2-charts/gateways/istio-egress
