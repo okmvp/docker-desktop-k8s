@@ -79,7 +79,7 @@ resource kubernetes_manifest apps {
       project     = "default"
       source      = {
         repoURL        = "https://github.com/okmvp/docker-desktop-k8s.git"
-        targetRevision = "feature/argo-by-argo"
+        targetRevision = "main"
         path           = "apps/"
         helm           = {
           parameters = [
