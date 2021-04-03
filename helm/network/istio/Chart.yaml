@@ -9,9 +9,10 @@ dependencies:
 - name: base
   version: 1.9.2
   repository: file://./dependencies/istio-1.9.2-charts/base
-- name: istiod
+- name: istio-discovery
   version: 1.9.2
   repository: file://./dependencies/istio-1.9.2-charts/istio-control/istio-discovery
+  alias: istiod
 - name: istio-ingress
   version: 1.9.2
   repository: file://./dependencies/istio-1.9.2-charts/gateways/istio-ingress
