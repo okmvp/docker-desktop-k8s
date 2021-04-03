@@ -27,7 +27,7 @@ resource helm_release argo {
   name       = "argo"
   chart      = "argo-cd"
   repository = "https://argoproj.github.io/argo-helm/"
-  version    = "2.17.5"
+  version    = "2.13.0"
   namespace  = kubernetes_namespace.argo.metadata[0].name
 
   values = [
@@ -64,32 +64,43 @@ resource kubernetes_manifest argo {
   provider = kubernetes-alpha
 
   manifest = {
-    "apiVersion" = "argoproj.io/v1alpha1"
-    "kind"       = "Application"
-    "metadata"   = {
-      "name"      = "argo"
-      "namespace" = kubernetes_namespace.argo.metadata[0].name
+    apiVersion = "argoproj.io/v1alpha1"
+    kind       = "Application"
+
+    metadata = {
+      name      = "argo"
+      namespace = kubernetes_namespace.argo.metadata[0].name
     }
-    "spec" = {
-      "project"     = "default"
-      "source"      = {
-        "repoURL"        = "https://github.com/okmvp/docker-desktop-k8s.git"
-        "targetRevision" = "main"
-        "path"           = "helm/operator/argo/"
-        "helm"           = {
-          "parameters" = []
-          "valueFiles" = [
+
+    spec = {
+      project     = "default"
+      source      = {
+        repoURL        = "https://github.com/okmvp/docker-desktop-k8s.git"
+        targetRevision = "feature/argo-by-argo"
+        path           = "helm/operator/argo/"
+        helm           = {
+          parameters = [
+            {
+              name  = "argo-cd.server.ingress.hosts[0]"
+              value = local.argo_host
+            },
+            {
+              name  = "argo-cd.server.config.url"
+              value = "http://${local.argo_host}"
+            },
+          ]
+          valueFiles = [
             "values.yaml",
           ]
-          "version"    = "v2"
+          version    = "v2"
         } 
       }
-      "destination" = {
-        "server"    = "https://kubernetes.default.svc"
-        "namespace" = kubernetes_namespace.argo.metadata[0].name
+      destination = {
+        server    = "https://kubernetes.default.svc"
+        namespace = kubernetes_namespace.argo.metadata[0].name
       }
-      "syncPolicy"  = {
-        "syncOptions" = [
+      syncPolicy  = {
+        syncOptions = [
           "Validate=true",
         ]
       }
