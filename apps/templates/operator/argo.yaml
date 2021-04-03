@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo
+  namespace: argo
+  labels:
+    argo.okmvp.internal/category: operator
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/okmvp/docker-desktop-k8s.git
+    targetRevision: main
+    path: helm/operator/argo/
+    helm:
+      parameters:
+      - name:  cd.server.ingress.hosts[0]
+        value: argo.{{ .Values.domain }}
+      - name:  cd.server.config.url
+        value: http://argo.{{ .Values.domain }}
+      valueFiles:
+      - values.yaml
+      version: v2
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argo
+  syncPolicy:
+    syncOptions:
+    - Validate=true

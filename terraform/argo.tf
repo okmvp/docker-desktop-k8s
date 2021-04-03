@@ -27,7 +27,7 @@ resource helm_release argo {
   name       = "argo"
   chart      = "argo-cd"
   repository = "https://argoproj.github.io/argo-helm/"
-  version    = "2.17.5"
+  version    = "2.13.0"
   namespace  = kubernetes_namespace.argo.metadata[0].name
 
   values = [
@@ -57,5 +57,56 @@ resource helm_release argo {
   set {
     name  = "configs.secret.argocdServerAdminPasswordMtime"
     value = data.external.argo.result.mtime
+  }
+}
+
+resource kubernetes_manifest apps {
+  provider = kubernetes-alpha
+
+  manifest = {
+    apiVersion = "argoproj.io/v1alpha1"
+    kind       = "Application"
+
+    metadata = {
+      name      = "apps"
+      namespace = kubernetes_namespace.argo.metadata[0].name
+      labels    = {
+        "argo.okmvp.internal/category" = "operator"
+      }
+    }
+
+    spec = {
+      project     = "default"
+      source      = {
+        repoURL        = "https://github.com/okmvp/docker-desktop-k8s.git"
+        targetRevision = "main"
+        path           = "apps/"
+        helm           = {
+          parameters = [
+            {
+              name  = "domain"
+              value = var.domain
+            },
+          ]
+          valueFiles = [
+            "values.yaml",
+          ]
+          version    = "v2"
+        } 
+      }
+      destination = {
+        server    = "https://kubernetes.default.svc"
+        namespace = kubernetes_namespace.argo.metadata[0].name
+      }
+      syncPolicy  = {
+        automated = {
+          prune    = true
+          selfHeal = true
+        }
+        syncOptions = [
+          "Validate=true",
+        ]
+      }
+    }
   }
 }
