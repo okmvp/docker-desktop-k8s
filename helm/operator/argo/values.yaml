@@ -1,5 +1,6 @@
 cd:
-  dex: false
+  dex:
+    enabled: false
   server:
     extraArgs:
     - --insecure
