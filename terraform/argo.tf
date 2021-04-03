@@ -97,3 +97,50 @@ resource kubernetes_manifest argo {
     }
   }
 }
+
+resource kubernetes_manifest apps {
+  provider = kubernetes-alpha
+
+  manifest = {
+    apiVersion = "argoproj.io/v1alpha1"
+    kind       = "Application"
+
+    metadata = {
+      name      = "apps"
+      namespace = kubernetes_namespace.argo.metadata[0].name
+      labels    = {
+        "argo.okmvp.internal/category" = "operator"
+      }
+    }
+
+    spec = {
+      project     = "default"
+      source      = {
+        repoURL        = "https://github.com/okmvp/docker-desktop-k8s.git"
+        targetRevision = "feature/argo-by-argo"
+        path           = "apps/"
+        helm           = {
+          parameters = [
+            {
+              name  = "domain"
+              value = var.domain
+            },
+          ]
+          valueFiles = [
+            "values.yaml",
+          ]
+          version    = "v2"
+        } 
+      }
+      destination = {
+        server    = "https://kubernetes.default.svc"
+        namespace = kubernetes_namespace.argo.metadata[0].name
+      }
+      syncPolicy  = {
+        syncOptions = [
+          "Validate=true",
+        ]
+      }
+    }
+  }
+}

@@ -14,9 +14,9 @@ spec:
     helm:
       parameters:
       - name:  cd.server.ingress.hosts[0]
-        value: {{ first .Values.cd.server.ingress.hosts }}
+        value: argo.{{ .Values.domain }}
       - name:  cd.server.config.url
-        value: {{ .Values.cd.server.config.url }}
+        value: http://argo.{{ .Values.domain }}
       valueFiles:
       - values.yaml
       version: v2
