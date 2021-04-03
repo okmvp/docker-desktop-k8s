@@ -17,10 +17,11 @@ spec:
       version: v2
   destination:
     server: https://kubernetes.default.svc
-    namespace: istio
+    namespace: istio-system
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
     - Validate=true
+    - CreateNamespace=true
