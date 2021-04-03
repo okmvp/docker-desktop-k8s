@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: istio
+  namespace: argo
+  labels:
+    argo.okmvp.internal/category: network
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/okmvp/docker-desktop-k8s.git
+    targetRevision: feature/istio
+    path: helm/network/istio
+    helm:
+      valueFiles:
+      - values.yaml
+      version: v2
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: istio
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - Validate=true
