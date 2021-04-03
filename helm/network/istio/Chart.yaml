@@ -8,4 +8,4 @@ appVersion: 1.16.0
 dependencies:
 - name: base
   version: 1.9.2
-  repository: file://./istio-1.9.2/manifests/charts/base
+  repository: file://./dependencies/istio-1.9.2-charts/base
