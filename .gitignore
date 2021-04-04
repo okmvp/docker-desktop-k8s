@@ -7,3 +7,7 @@
 terraform.tfstate
 terraform.tfstate.backup
 terraform.tfvars
+
+# helm chart
+helm/**/Chart.lock
+helm/**/charts/
