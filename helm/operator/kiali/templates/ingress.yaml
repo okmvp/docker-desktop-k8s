@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: kiali-ingress
   namespace: {{ .Release.Namespace }}
-  annotaions:
+  annotations:
     kubernetes.io/ingress.class: istio
 spec:
   rules:
