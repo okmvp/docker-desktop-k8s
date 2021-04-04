@@ -95,6 +95,8 @@ data template_file apps {
             value: ${var.apps_revision}
           - name:  metallb.addresses
             value: https://${var.metallb_addresses}
+          - name:  kafka.enabled
+            value: "${var.kafka_enabled}"
           valueFiles:
           - values.yaml
           version: v2
