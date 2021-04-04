@@ -40,6 +40,11 @@ resource helm_release argo {
   }
 
   set {
+    name  = "apps.revision"
+    value = var.revision
+  }
+
+  set {
     name  = "apps.domain"
     value = var.domain
   }

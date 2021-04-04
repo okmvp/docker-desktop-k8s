@@ -8,6 +8,11 @@ variable kubernetes_config_context {
   default = "docker-desktop"
 }
 
+variable revision {
+  type = string
+  default = "main"
+}
+
 variable domain {
   type = string
   default = "okmvp.internal"
