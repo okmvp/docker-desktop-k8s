@@ -2,7 +2,7 @@ operator:
   fullnameOverride: operator
   cr:
     create: true
-    namespace: {{ .Release.namespace }}
+    namespace: kiali
     spec:
       istio_namespace: istio-system
       auth:
