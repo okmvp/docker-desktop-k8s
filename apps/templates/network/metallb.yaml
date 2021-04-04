@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: metallb
+  namespace: metallb
+  labels:
+    argo.okmvp.internal/category: operator
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/okmvp/docker-desktop-k8s.git
+    targetRevision: feature/metallb
+    path: helm/network/metallb
+    helm:
+      valueFiles:
+      - values.yaml
+      version: v2
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: metallb
+  syncPolicy:
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true
