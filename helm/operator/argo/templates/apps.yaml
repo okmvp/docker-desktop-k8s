@@ -14,7 +14,9 @@ spec:
     helm:
       parameters:
       - name:  domain
-        value: {{ .Values.domain }}
+        value: {{ .Values.apps.domain }}
+      - name:  metallb.addresses
+        value: {{ .Values.apps.metallb.addresses }}
       valueFiles:
       - values.yaml
       version: v2

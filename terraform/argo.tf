@@ -30,11 +30,6 @@ resource helm_release argo {
   namespace = kubernetes_namespace.argo.metadata[0].name
 
   set {
-    name  = "domain"
-    value = var.domain
-  }
-
-  set {
     name  = "cd.server.ingress.hosts[0]"
     value = local.argo_host
   }
@@ -42,6 +37,21 @@ resource helm_release argo {
   set {
     name  = "cd.server.config.url"
     value = "http://${local.argo_host}"
+  }
+
+  set {
+    name  = "cd.server.config.url"
+    value = "http://${local.argo_host}"
+  }
+
+  set {
+    name  = "apps.domain"
+    value = var.domain
+  }
+
+  set {
+    name  = "apps.metallb.addresses"
+    value = var.metallb_addresses
   }
 
   set_sensitive {

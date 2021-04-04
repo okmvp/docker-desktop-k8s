@@ -20,3 +20,8 @@ variable argo_admin_modified {
   type = string
   default = "2021-01-01T00:00:00Z"
 }
+
+variable metallb_addresses {
+  type = string
+  default = "192.168.0.0/24"
+}
