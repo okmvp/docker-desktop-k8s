@@ -82,8 +82,8 @@ resource null_resource apps {
 data template_file apps {
   template = <<-EOT
     kubectl \
-        --kubeconfig ${var.kubernetes_config_path} \
-        --context ${var.kubernetes_config_context} \
+        --kubeconfig ${var.kubeconfig_path} \
+        --context ${var.kubeconfig_context} \
       apply \
         --validate=true \
         --wait=true \

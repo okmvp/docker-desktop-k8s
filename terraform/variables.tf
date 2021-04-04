@@ -1,9 +1,9 @@
-variable kubernetes_config_path {
+variable kubeconfig_path {
   type = string
   default = "~/.kube/config"
 }
 
-variable kubernetes_config_context {
+variable kubeconfig_context {
   type = string
   default = "docker-desktop"
 }
