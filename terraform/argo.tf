@@ -85,7 +85,6 @@ data template_file apps {
         --kubeconfig ${var.kubernetes_config_path} \
         --context ${var.kubernetes_config_context} \
       apply \
-        --prune=true \
         --validate=true \
         --wait=true \
         -f - <<EOF
@@ -100,7 +99,7 @@ data template_file apps {
       source:
         repoURL: https://github.com/okmvp/docker-desktop-k8s.git
         targetRevision: ${var.revision}
-        path: k3s-basecamp/k8s-apps/helm/manager-argo
+        path: apps/
         helm:
           parameters:
           - name:  revision
@@ -116,6 +115,9 @@ data template_file apps {
         server: https://kubernetes.default.svc
         namespace: argo
       syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
         syncOptions:
         - Validate=true
     EOF
