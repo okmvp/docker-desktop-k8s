@@ -10,3 +10,6 @@ dependencies:
 - name: kiali-operator
   version: 1.32.0
   repository: https://kiali.org/helm-charts
+- name: kiali-server
+  version: 1.32.0
+  repository: https://kiali.org/helm-charts
