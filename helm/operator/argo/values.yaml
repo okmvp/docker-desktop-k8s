@@ -11,7 +11,7 @@ cd:
       hosts:
       - ""
       paths:
-      - "*"
+      - "/*"
     config:
       url: ""
       repositories: |
