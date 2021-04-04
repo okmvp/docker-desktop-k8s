@@ -13,6 +13,8 @@ spec:
     path: apps/
     helm:
       parameters:
+      - name:  revision
+        value: {{ .Values.apps.revision }}
       - name:  domain
         value: {{ .Values.apps.domain }}
       - name:  metallb.addresses
