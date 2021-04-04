@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: apps
+  namespace: argo
+  labels:
+    argo.okmvp.internal/category: operator
+spec:
+  project: default
+  source:
+    repoUR: https://github.com/okmvp/docker-desktop-k8s.git
+    #targetRevision: main
+    targetRevision: bugfix/argo-apps-on-terraform
+    path: apps/
+    helm:
+      parameters:
+        name:  domain
+        value: {{ .Values.domain }}
+      valueFiles:
+      - values.yaml
+      version: v2
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - Validate=true

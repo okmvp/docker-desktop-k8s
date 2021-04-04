@@ -26,8 +26,9 @@ resource helm_release argo {
 
   name       = "argo"
   chart      = "argo-cd"
-  repository = "https://argoproj.github.io/argo-helm/"
-  version    = "2.13.0"
+  repository = "file://${path.modele}/../helm/operator/argo/
+  //repository = "https://argoproj.github.io/argo-helm/"
+  //version    = "2.13.0"
   namespace  = kubernetes_namespace.argo.metadata[0].name
 
   values = [
@@ -60,6 +61,7 @@ resource helm_release argo {
   }
 }
 
+/*
 resource kubernetes_manifest apps {
   provider = kubernetes-alpha
 
@@ -110,3 +112,4 @@ resource kubernetes_manifest apps {
     }
   }
 }
+*/
