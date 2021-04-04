@@ -64,3 +64,62 @@ resource helm_release argo {
     value = data.external.argo.result.mtime
   }
 }
+
+resource null_resource apps {
+  depends_on = [
+    helm_release.argo
+  ]
+
+  triggers = {
+    manifest = data.template_file.apps.rendered
+  }
+
+  provisioner local-exec {
+    command = self.triggers.manifest
+  }
+}
+
+data template_file apps {
+  template = <<-EOT
+    kubectl \
+        --kubeconfig ${var.kubeconfig_path} \
+        --context ${var.kubeconfig_context} \
+      apply \
+        --validate=true \
+        --wait=true \
+        -f - <<EOF
+    ---
+    apiVersion: argoproj.io/v1alpha1
+    kind: Application
+    metadata:
+      name: apps
+      namespace: ${kubernetes_namespace.argo.metadata[0].name}
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/okmvp/docker-desktop-k8s.git
+        targetRevision: ${var.revision}
+        path: apps/
+        helm:
+          parameters:
+          - name:  revision
+            value: ${var.revision}
+          - name:  domain
+            value: ${var.domain}
+          - name:  metallb.addresses
+            value: https://${var.metallb_addresses}
+          valueFiles:
+          - values.yaml
+          version: v2
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: argo
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - Validate=true
+    EOF
+  EOT
+}
