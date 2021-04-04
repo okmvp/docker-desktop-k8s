@@ -13,6 +13,8 @@ spec:
     path: helm/operator/argo/
     helm:
       parameters:
+      - name:  domain
+        value: {{ .Values.domain }}
       - name:  cd.server.ingress.hosts[0]
         value: argo.{{ .Values.domain }}
       - name:  cd.server.config.url
