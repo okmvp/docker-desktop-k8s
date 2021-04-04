@@ -11,11 +11,11 @@ kiali-server:
     strategy: anonymous
   deployment:
     ingress_enabled: false
-    override_ingress_yaml:
-      metadata:
-        annotations:
-          kubernetes.io/ingress.class: istio
-        spec:
+#    override_ingress_yaml:
+#      metadata:
+#        annotations:
+#          kubernetes.io/ingress.class: istio
+#        spec:
 
 ingress:
   host: kiali.okmvp.internal
