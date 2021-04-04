@@ -9,16 +9,20 @@ spec:
   project: default
   source:
     repoURL: https://github.com/okmvp/docker-desktop-k8s.git
-    targetRevision: main
+    targetRevision: {{ .Values.revision }}
     path: helm/operator/argo/
     helm:
       parameters:
-      - name:  domain
-        value: {{ .Values.domain }}
       - name:  cd.server.ingress.hosts[0]
         value: argo.{{ .Values.domain }}
       - name:  cd.server.config.url
         value: http://argo.{{ .Values.domain }}
+      - name:  apps.revision
+        value: {{ .Values.revision }}
+      - name:  apps.domain
+        value: {{ .Values.domain }}
+      - name:  apps.metallb.addresses
+        value: {{ .Values.metallb.addresses }}
       valueFiles:
       - values.yaml
       version: v2
