@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/okmvp/docker-desktop-k8s.git
-    targetRevision: feature/istio
+    targetRevision: {{ .Values.revision }}
     path: helm/network/istio
     helm:
       valueFiles:

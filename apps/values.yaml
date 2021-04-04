@@ -1,6 +1,6 @@
-revision: ""
+revision: main
 
-domain: ""
+domain: okmvp.internal
 
 metallb:
   addresses: ""
