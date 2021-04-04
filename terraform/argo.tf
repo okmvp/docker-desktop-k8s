@@ -39,21 +39,6 @@ resource helm_release argo {
     value = "http://${local.argo_host}"
   }
 
-  set {
-    name  = "apps.revision"
-    value = var.revision
-  }
-
-  set {
-    name  = "apps.domain"
-    value = var.domain
-  }
-
-  set {
-    name  = "apps.metallb.addresses"
-    value = var.metallb_addresses
-  }
-
   set_sensitive {
     name  = "cd.configs.secret.argocdServerAdminPassword"
     value = data.external.argo.result.encpw
