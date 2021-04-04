@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/okmvp/docker-desktop-k8s.git
-    targetRevision: main
+    targetRevision: feature/metallb
     path: apps/
     helm:
       parameters:

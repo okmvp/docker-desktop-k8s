@@ -10,6 +10,7 @@ variable kubernetes_config_context {
 
 variable domain {
   type = string
+  default = "okmvp.internal"
 }
 
 variable argo_admin_password {

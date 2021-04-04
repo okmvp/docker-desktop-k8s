@@ -40,11 +40,6 @@ resource helm_release argo {
   }
 
   set {
-    name  = "cd.server.config.url"
-    value = "http://${local.argo_host}"
-  }
-
-  set {
     name  = "apps.domain"
     value = var.domain
   }
