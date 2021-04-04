@@ -2,7 +2,26 @@ operator:
   fullnameOverride: operator
   cr:
     create: true
-    namespace: istio-system
+    namespace: {{ .Release.namespace }}
+    spec:
+      istio_namespace: istio-system
+      auth:
+        strategy: anonymous
+      deployment:
+        accessible_namespaces:
+        - "**"
+      override_ingress_yaml:
+        metadata:
+          annotations:
+            kubernetes.io/ingress.class: istio
+        spec:
+          rules:
+          - http:
+              paths:
+              - path: /kiali/*
+                backend:
+                  serviceName: kiali
+                  servicePort: 20001
 
 kiali-server:
   kiali_route_url: ""
