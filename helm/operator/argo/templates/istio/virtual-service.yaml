@@ -15,6 +15,6 @@ spec:
     - destination:
         host: argo-argocd-server
         port:
-          number: 8080
+          number: 80
         host: httpbin
       weight: 100
