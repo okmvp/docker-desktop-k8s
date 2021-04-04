@@ -13,6 +13,8 @@ spec:
         prefix: /
     route:
     - destination:
+        host: argo-argocd-server
         port:
           number: 8080
         host: httpbin
+      weight: 100
