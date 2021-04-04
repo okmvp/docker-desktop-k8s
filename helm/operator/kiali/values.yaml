@@ -1,4 +1,4 @@
-kiali-operator:
+operator:
   fullnameOverride: operator
   cr:
     create: true
