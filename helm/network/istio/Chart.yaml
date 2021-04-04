@@ -1,0 +1,21 @@
+apiVersion: v2
+name: kube-network
+description: A Helm chart for Kubernetes
+type: application
+version: 0.1.0
+appVersion: 1.16.0
+
+dependencies:
+- name: base
+  version: 1.9.2
+  repository: file://./dependencies/istio-1.9.2-charts/base
+- name: istio-discovery
+  version: 1.9.2
+  repository: file://./dependencies/istio-1.9.2-charts/istio-control/istio-discovery
+  alias: istiod
+- name: istio-ingress
+  version: 1.9.2
+  repository: file://./dependencies/istio-1.9.2-charts/gateways/istio-ingress
+- name: istio-egress
+  version: 1.9.2
+  repository: file://./dependencies/istio-1.9.2-charts/gateways/istio-egress

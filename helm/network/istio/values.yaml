@@ -1,0 +1,11 @@
+istiod:
+  global:
+    jwtPolicy: first-party-jwt
+
+istio-ingress:
+  global:
+    jwtPolicy: first-party-jwt
+
+istio-egress:
+  global:
+    jwtPolicy: first-party-jwt

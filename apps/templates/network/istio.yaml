@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: istio-system
+  namespace: argo
+  labels:
+    argo.okmvp.internal/category: network
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/okmvp/docker-desktop-k8s.git
+    targetRevision: feature/istio
+    path: helm/network/istio
+    helm:
+      valueFiles:
+      - values.yaml
+      version: v2
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: istio-system
+  syncPolicy:
+    #automated:
+    #  prune: true
+    #  selfHeal: true
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true
+  ignoreDifferences:
+  - group: apps
+    kind: MutatingWebhookConfiguration
+    name: istio-sidecar-injector
+    namespace: istio-system
+    jsonPointers:
+    - /webhooks/0/clientConfig/caBundle
+  - group: apps
+    kind: MutatingWebhookConfiguration
+    name: istiod-istio-system
+    namespace: istio-system
+    jsonPointers:
+    - /webhooks/0/clientConfig/caBundle
