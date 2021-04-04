@@ -17,6 +17,8 @@ spec:
         value: argo.{{ .Values.domain }}
       - name:  cd.server.config.url
         value: http://argo.{{ .Values.domain }}
+      - name:  apps.revision
+        value: {{ .Values.revision }}
       - name:  apps.domain
         value: {{ .Values.domain }}
       - name:  apps.metallb.addresses
