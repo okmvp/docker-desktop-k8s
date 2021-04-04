@@ -8,14 +8,19 @@ variable kubeconfig_context {
   default = "docker-desktop"
 }
 
-variable revision {
-  type = string
-  default = "main"
-}
-
 variable domain {
   type = string
   default = "okmvp.internal"
+}
+
+variable apps_repository {
+  type = string
+  default = "https://github.com/okmvp/docker-desktop-k8s.git"
+}
+
+variable apps_revision {
+  type = string
+  default = "main"
 }
 
 variable argo_admin_password {

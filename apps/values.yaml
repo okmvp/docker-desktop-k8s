@@ -1,6 +1,8 @@
-revision: main
 
 domain: okmvp.internal
+
+repository: https://github.com/okmvp/docker-desktop-k8s.git
+revision:   main
 
 metallb:
   addresses: ""
