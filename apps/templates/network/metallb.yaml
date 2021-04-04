@@ -4,7 +4,7 @@ metadata:
   name: metallb
   namespace: argo
   labels:
-    argo.okmvp.internal/category: operator
+    argo.okmvp.internal/category: network
 spec:
   project: default
   source:
@@ -19,6 +19,9 @@ spec:
     server: https://kubernetes.default.svc
     namespace: metallb
   syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
     syncOptions:
     - Validate=true
     - CreateNamespace=true
