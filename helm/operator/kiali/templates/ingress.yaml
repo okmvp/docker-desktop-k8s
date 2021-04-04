@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-wildcard-host
+  annotaions:
+    kubernetes.io/ingress.class: istio
+spec:
+  rules:
+  - host: {{ .Values.ingress.host }}
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/kiali"
+        backend:
+          service:
+            name: kiali
+            port:
+              number: 20001
