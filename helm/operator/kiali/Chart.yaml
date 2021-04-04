@@ -1,0 +1,12 @@
+apiVersion: v2
+name: kube-network
+description: A Helm chart for Kubernetes
+type: application
+version: 0.1.0
+appVersion: 1.16.0
+
+dependencies:
+# https://github.com/kiali/helm-charts
+- name: kiali-operator
+  version: 1.32.0
+  repository: https://kiali.org/helm-charts
