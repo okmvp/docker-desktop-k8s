@@ -16,5 +16,5 @@ spec:
         host: argo-argocd-server.argo.svc.cluster.local
         port:
           number: 80
-        host: httpbin
+        #host: httpbin
       weight: 100
