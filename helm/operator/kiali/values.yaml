@@ -8,3 +8,8 @@ kiali-server:
   istio_namespace: istio-system
   auth:
     strategy: anonymous
+  deployment:
+    override_ingress_yaml:
+      metadata:
+        annotations:
+          kubernetes.io/ingress.class: istio
