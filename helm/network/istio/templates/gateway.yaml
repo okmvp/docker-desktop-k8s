@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: httpbin-gateway
+  name: ingress-gateway
 spec:
   selector:
     istio: ingressgateway
@@ -11,4 +11,4 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - {{ first .Values.cd.server.ingress.hosts }}
+    - *
