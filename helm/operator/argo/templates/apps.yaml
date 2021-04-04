@@ -9,8 +9,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/okmvp/docker-desktop-k8s.git
-    #targetRevision: main
-    targetRevision: bugfix/argo-apps-on-terraform
+    targetRevision: main
     path: apps/
     helm:
       parameters:
