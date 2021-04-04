@@ -39,21 +39,6 @@ resource helm_release argo {
     value = "http://${local.argo_host}"
   }
 
-  set {
-    name  = "apps.revision"
-    value = var.revision
-  }
-
-  set {
-    name  = "apps.domain"
-    value = var.domain
-  }
-
-  set {
-    name  = "apps.metallb.addresses"
-    value = var.metallb_addresses
-  }
-
   set_sensitive {
     name  = "cd.configs.secret.argocdServerAdminPassword"
     value = data.external.argo.result.encpw
@@ -97,15 +82,17 @@ data template_file apps {
     spec:
       project: default
       source:
-        repoURL: https://github.com/okmvp/docker-desktop-k8s.git
-        targetRevision: ${var.revision}
+        repoURL: ${var.apps_repository}
+        targetRevision: ${var.apps_revision}
         path: apps/
         helm:
           parameters:
-          - name:  revision
-            value: ${var.revision}
           - name:  domain
             value: ${var.domain}
+          - name:  repository
+            value: ${var.apps_repository}
+          - name:  revision
+            value: ${var.apps_revision}
           - name:  metallb.addresses
             value: https://${var.metallb_addresses}
           valueFiles:
