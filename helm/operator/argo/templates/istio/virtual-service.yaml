@@ -4,7 +4,7 @@ metadata:
   name: httpbin
 spec:
   hosts:
-  - {{ first .Values.server.ingress.hosts }}
+  - {{ first .Values.cd.server.ingress.hosts }}
   gateways:
   - httpbin-gateway
   http:
