@@ -10,6 +10,8 @@ cd:
         kubernetes.io/ingress.class: istio
       hosts:
       - ""
+      paths:
+      - "*"
     config:
       url: ""
       repositories: |
