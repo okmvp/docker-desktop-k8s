@@ -6,9 +6,12 @@ metadata:
 spec:
   accessModes:
   - ReadWriteOnce
-  resources:
-    requests:
-      storage: {{ index .Values.kafka "cp-kafka" "persistence" "size" }}
   selector:
     matchLabels:
       name: kafka-0-0
+  resources:
+    requests:
+      storage: {{ index .Values.kafka "cp-kafka" "persistence" "size" }}
+  volumeName: kafka-0-0
+  storageClassName: local-storage
+  volumeMode: Filesystem
