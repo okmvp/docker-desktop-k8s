@@ -4,7 +4,7 @@ metadata:
   name: zookeeper-log
 spec:
   capacity:
-    storage: {{ .es.kafka.cp-zookeeper.persistence.dataLogDirSize }}
+    storage: {{ .Values.kafka.cp-zookeeper.persistence.dataLogDirSize }}
   volumeMode: Filesystem
   accessModes:
   - ReadWriteOnce
