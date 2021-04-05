@@ -28,13 +28,13 @@ spec:
       valueFiles:
       - values.yaml
       version: v2
-destination:
-  server: https://kubernetes.default.svc
-  namespace: kafka
-syncPolicy:
-  automated:
-    prune: true
-    selfHeal: true
-  syncOptions:
-  - Validate=true
-  - CreateNamespace=true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kafka
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true
