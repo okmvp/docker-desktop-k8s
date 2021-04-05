@@ -3,7 +3,7 @@ dashboard:
   - --disable-settings-authorizer        
   - --enable-skip-login
   - --insecure-bind-address=0.0.0.0
-  - --namespace=kube-dashbaord
+  - --namespace=kubernetes-dashboard
   protocolHttp: true
   ingress:
     enabled: true

@@ -20,7 +20,7 @@ spec:
       version: v2
   destination:
     server: https://kubernetes.default.svc
-    namespace: kube-dashbaord
+    namespace: kubernetes-dashboard
   syncPolicy:
     automated:
       prune: true
