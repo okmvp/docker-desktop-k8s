@@ -12,5 +12,5 @@ spec:
   resources:
     requests:
       storage: {{ index .Values.kafka "cp-zookeeper" "persistence" "dataLogDirSize" }}
-  storageClassName: local
+  storageClassName: local-storage
   volumeMode: Filesystem
