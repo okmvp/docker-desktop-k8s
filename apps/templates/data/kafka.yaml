@@ -13,18 +13,18 @@ spec:
     path: helm/data/kafka/
     helm:
       parameters:
+      - name:  kafka.cp-zookeeper.persistence.dataDirPath
+        value: {{ .Values.kafka.zookeeper.persistence.dataDirPath }}
       - name:  kafka.cp-zookeeper.persistence.dataDirSize
-        value: ${var.zookeeper_ebs_volumes.data.size}Gi
+        value: {{ .Values.kafka.zookeeper.persistence.dataDirSize }}
+      - name:  kafka.cp-zookeeper.persistence.dataLogDirPath
+        value: {{ .Values.kafka.zookeeper.persistence.dataLogDirPath }}
       - name:  kafka.cp-zookeeper.persistence.dataLogDirSize
-        value: ${var.zookeeper_ebs_volumes.log.size}Gi
+        value: {{ .Values.kafka.zookeeper.persistence.dataLogDirSize }}
+      - name:  kafka.cp-kafka.persistence.path
+        value: {{ .Values.kafka.kafka.persistence.path }}
       - name:  kafka.cp-kafka.persistence.size
-        value: ${var.kafka_ebs_volume.size}Gi
-      - name:  oauth2-poxy.extraEnv[0].value
-        value: "${var.github_org}"
-      - name:  oauth2-proxy.ingress.hosts[0]
-        value: kafka.${var.domain_name}
-      - name:  oauth2-proxy.ingress.tls[0].hosts[0]
-        value: kafka.${var.domain_name}
+        value: {{ .Values.kafka.kafka.persistence.size }}
       valueFiles:
       - values.yaml
       version: v2

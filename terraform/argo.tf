@@ -97,8 +97,18 @@ data template_file apps {
             value: ${var.apps_revision}
           - name:  metallb.addresses
             value: https://${var.metallb_addresses}
-          - name:  kafka.enabled
-            value: "${var.kafka_enabled}"
+          - name:  kafka.zookeeper.persistence.dataDirPath
+            value: ${local.zookeeper_data_path}
+          - name:  kafka.zookeeper.persistence.dataDirSize
+            value: ${var.zookeeper_data_size}
+          - name:  kafka.zookeeper.persistence.dataLogDirPath
+            value: ${local.zookeeper_log_path}
+          - name:  kafka.zookeeper.persistence.dataLogDirSize
+            value: ${var.zookeeper_log_size}
+          - name:  kafka.kafka.persistence.path
+            value: ${local.kafka_data_path}
+          - name:  kafka.kafka.persistence.size
+            value: ${var.kafka_data_size}
           valueFiles:
           - values.yaml
           version: v2
@@ -113,4 +123,10 @@ data template_file apps {
         - Validate=true
     EOF
   EOT
+}
+
+locals {
+  zookeeper_data_path = pathexpand("${var.kubepv_root}/zookeeper/data")
+  zookeeper_log_path  = pathexpand("${var.kubepv_root}/zookeeper/log")
+  kafka_data_path     = pathexpand("${var.kubepv_root}/kafka/data")
 }

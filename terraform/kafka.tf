@@ -9,6 +9,7 @@ resource kubernetes_namespace kafka {
 }
 
 
+/*
 ################################################################
 ##
 ##  Kubernetes Persistent Volumes
@@ -124,3 +125,5 @@ resource kubernetes_persistent_volume kafka {
     }
   }
 }
+
+*/

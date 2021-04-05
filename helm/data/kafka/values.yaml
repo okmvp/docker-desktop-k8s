@@ -1,4 +1,3 @@
----
 kafka:
   cp-zookeeper:
     servers: 1
@@ -20,7 +19,9 @@ kafka:
       jmx:
         enabled: true
     nodeport:
-      enabled: false
+      enabled: true
+      servicePort: 19092
+      firstListenerPort: 31090
   cp-kafka-connect:
     configurationOverrides:
       "config.storage.replication.factor": "1"

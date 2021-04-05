@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: zookeeper-log
+spec:
+  capacity:
+    storage: {{ .es.kafka.cp-zookeeper.persistence.dataLogDirSize }}
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: local-storage
+  local:
+    path: {{ .Values.kafka.cp-zookeeper.persistence.dataLogDirPath }}
+  nodeAffinity:
+    required
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - docker-desktop

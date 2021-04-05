@@ -6,3 +6,15 @@ revision:   main
 
 metallb:
   addresses: ""
+
+kafka:
+  zookeeper:
+    persistence:
+      dataDirPath: ""
+      dataDirSize: 1Gi
+      dataLogDirPath: ""
+      dataLogDirSize: 4Gi
+  kafka:
+    persistence:
+      path: ""
+      size: 4Gi
