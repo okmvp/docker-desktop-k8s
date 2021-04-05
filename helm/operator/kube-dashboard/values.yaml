@@ -1,7 +1,7 @@
 dashboard:
   extraArgs:
   - --disable-settings-authorizer        
-  - --enable-insecure-login
+  #- --enable-insecure-login
   - --enable-skip-login
   - --insecure-bind-address=0.0.0.0
   - --namespace=kube-dashbaord
