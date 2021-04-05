@@ -1,0 +1,14 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: datadir-0-kafka-cp-kafka-0
+  namespace {{ .Release.Namespace }}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ index .Values.kafka "cp-kafka" "persistence" "size" }}
+  selector:
+    matchLabels:
+      name: kafka-0-0

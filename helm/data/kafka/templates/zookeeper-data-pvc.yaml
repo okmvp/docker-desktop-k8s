@@ -1,0 +1,14 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: datadir-kafka-cp-zookeeper-0
+  namespace {{ .Release.Namespace }}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ index .Values.kafka "cp-zookeeper" "persistence" "dataDirSize" }}
+  selector:
+    matchLabels:
+      name: zookeeper-0
