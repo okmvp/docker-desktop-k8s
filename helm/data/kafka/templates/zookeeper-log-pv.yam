@@ -4,14 +4,14 @@ metadata:
   name: zookeeper-log
 spec:
   capacity:
-    storage: 4Gi
+    storage: {{ template "kafka.cp-zookeeper.persistence.dataLogDirSize" }}
   volumeMode: Filesystem
   accessModes:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Delete
   storageClassName: local-storage
   local:
-    path: {{ .Values.kafka.cp-zookeeper.persistence.dataLogDirPath }}
+    path: {{ template "kafka.cp-zookeeper.persistence.dataLogDirPath" }}
   nodeAffinity:
     required
       nodeSelectorTerms:
