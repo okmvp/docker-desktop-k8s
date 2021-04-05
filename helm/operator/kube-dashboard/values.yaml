@@ -5,6 +5,7 @@ dashboard:
   #- --system-banner="Welcome to Kubernetes"
   #- --disable-settings-authorizer        
   #- --auto-generate-certificates
+  protocolHttp: false
   ingress:
     enabled: true
     annotations:
