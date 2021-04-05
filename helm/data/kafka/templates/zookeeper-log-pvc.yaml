@@ -6,9 +6,11 @@ metadata:
 spec:
   accessModes:
   - ReadWriteOnce
-  resources:
-    requests:
-      storage: {{ index .Values.kafka "cp-zookeeper" "persistence" "dataLogDirSize" }}
   selector:
     matchLabels:
       name: zookeeper-log-0
+  resources:
+    requests:
+      storage: {{ index .Values.kafka "cp-zookeeper" "persistence" "dataLogDirSize" }}
+  storageClassName: local
+  volumeMode: Filesystem

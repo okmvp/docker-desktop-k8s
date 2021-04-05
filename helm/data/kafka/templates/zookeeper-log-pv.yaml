@@ -5,13 +5,13 @@ metadata:
 spec:
   capacity:
     storage: {{ index .Values.kafka "cp-zookeeper" "persistence" "dataLogDirSize" }}
-  volumeMode: Filesystem
+  local:
+    path: {{ index .Values.kafka "cp-zookeeper" "persistence" "dataLogDirPath" }}
   accessModes:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Delete
   storageClassName: local-storage
-  local:
-    path: {{ index .Values.kafka "cp-zookeeper" "persistence" "dataLogDirPath" }}
+  volumeMode: Filesystem
   nodeAffinity:
     required:
       nodeSelectorTerms:
