@@ -4,14 +4,14 @@ metadata:
   name: kafka-data
 spec:
   capacity:
-    storage: {{ .Values.kafka.cp-kafka.persistence.size }}
+    storage: {{ template "kafka.cp-kafka.persistence.size" }}
   volumeMode: Filesystem
   accessModes:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Delete
   storageClassName: local-storage
   local:
-    path: {{ .Values.kafka.cp-kafka.persistence.path }}
+    path: {{ template "kafka.cp-kafka.persistence.path" }}
   nodeAffinity:
     required:
       nodeSelectorTerms:

@@ -4,14 +4,14 @@ metadata:
   name: zookeeper-data
 spec:
   capacity:
-    storage: {{ .Values.kafka.cp-zookeeper.persistence.dataDirSize }}
+    storage: {{ template "kafka.cp-zookeeper.persistence.dataDirSize" }}
   volumeMode: Filesystem
   accessModes:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Delete
   storageClassName: local-storage
   local:
-    path: {{ .Values.kafka.cp-zookeeper.persistence.dataDirPath }}
+    path: {{ template "kafka.cp-zookeeper.persistence.dataDirPath" }}
   nodeAffinity:
     required:
       nodeSelectorTerms:
