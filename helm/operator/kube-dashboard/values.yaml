@@ -1,10 +1,11 @@
 dashboard:
   extraArgs:
-  - --enable-skip-login
+  - --disable-settings-authorizer        
   - --enable-insecure-login
-  #- --system-banner="Welcome to Kubernetes"
-  #- --disable-settings-authorizer        
-  #- --auto-generate-certificates
+  - --enable-skip-login
+  - --insecure-bind-address=0.0.0.0
+  - --namespace=kube-dashbaord
+  - --system-banner="Welcome to Kubernetes"
   protocolHttp: true
   ingress:
     enabled: true
