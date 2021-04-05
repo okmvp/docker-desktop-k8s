@@ -1,0 +1,15 @@
+dashboard:
+  extraArgs:
+  - --enable-skip-login
+  - --enable-insecure-login
+  #- --system-banner="Welcome to Kubernetes"
+  #- --disable-settings-authorizer        
+  #- --auto-generate-certificates
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: istio
+    paths:
+    - "/*"
+    hosts:
+    - ""
