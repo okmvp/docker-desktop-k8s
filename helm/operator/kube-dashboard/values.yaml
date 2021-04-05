@@ -5,7 +5,6 @@ dashboard:
   - --enable-skip-login
   - --insecure-bind-address=0.0.0.0
   - --namespace=kube-dashbaord
-  - --system-banner="Welcome to Kubernetes"
   protocolHttp: true
   ingress:
     enabled: true
