@@ -13,7 +13,7 @@ spec:
   local:
     path: {{ index .Values.kafka "cp-zookeeper" "persistence" "dataLogDirPath" }}
   nodeAffinity:
-    required
+    required:
       nodeSelectorTerms:
       - matchExpressions:
         - key: kubernetes.io/hostname
