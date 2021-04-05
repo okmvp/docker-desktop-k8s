@@ -79,6 +79,8 @@ data template_file apps {
     metadata:
       name: apps
       namespace: ${kubernetes_namespace.argo.metadata[0].name}
+      labels:
+        argo.okmvp.internal/category: operator
     spec:
       project: default
       source:
