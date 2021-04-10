@@ -1,26 +1,24 @@
+{{- if .Values.data.kafka.enabled }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: metallb
+  name: kafka
   namespace: argo
   labels:
-    argo.okmvp.internal/category: network
+    argo.okmvp.internal/category: data
 spec:
   project: default
   source:
     repoURL: {{ .Values.repository }}
     targetRevision: {{ .Values.revision }}
-    path: helm/network/metallb
+    path: helm/data/kafka/
     helm:
-      parameters:
-      - name:  metallb.configInline.address-pools[0].addresses[0]
-        value: {{ .Values.network.metallb.addresses }}
       valueFiles:
       - values.yaml
       version: v2
   destination:
     server: https://kubernetes.default.svc
-    namespace: metallb-system
+    namespace: kafka
   syncPolicy:
     automated:
       prune: true
@@ -28,3 +26,4 @@ spec:
     syncOptions:
     - Validate=true
     - CreateNamespace=true
+{{- end }}

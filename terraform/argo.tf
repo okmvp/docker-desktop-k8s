@@ -52,7 +52,9 @@ resource helm_release argo {
 
 resource null_resource apps {
   depends_on = [
-    helm_release.argo
+    helm_release.argo,
+    kubernetes_persistent_volume_claim.zookeeper,
+    kubernetes_persistent_volume.zookeeper,
   ]
 
   triggers = {
@@ -89,14 +91,19 @@ data template_file apps {
         path: apps/
         helm:
           parameters:
+          # Common
           - name:  domain
             value: ${var.domain}
           - name:  repository
             value: ${var.apps_repository}
           - name:  revision
             value: ${var.apps_revision}
-          - name:  metallb.addresses
-            value: https://${var.metallb_addresses}
+          # Metal-LB
+          - name:  network.metallb.addresses
+            value: ${var.metallb_addresses}
+          # Kafka
+          - name:  data.kafka.enabled
+            value: "${var.kafka_enabled}"
           valueFiles:
           - values.yaml
           version: v2

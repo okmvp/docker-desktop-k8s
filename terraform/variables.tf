@@ -8,10 +8,24 @@ variable kubeconfig_context {
   default = "docker-desktop"
 }
 
+variable kubepv_root {
+  type = string
+  default = "~/work/workdata/docker-desktop/k8s-pv"
+}
+
 variable domain {
   type = string
   default = "okmvp.internal"
 }
+
+
+################################################################
+##
+##  Applications
+##
+
+##--------------------------------------------------------------
+##  Argo
 
 variable apps_repository {
   type = string
@@ -32,7 +46,33 @@ variable argo_admin_modified {
   default = "2021-01-01T00:00:00Z"
 }
 
+##--------------------------------------------------------------
+##  Metal-LB
+
 variable metallb_addresses {
   type = string
   default = "192.168.0.0/24"
+}
+
+##--------------------------------------------------------------
+##  Kafka
+
+variable kafka_enabled {
+  type = bool
+  default = true
+}
+
+variable zookeeper_data_size {
+  type = string
+  default = "1Gi"
+}
+
+variable zookeeper_log_size {
+  type = string
+  default = "4Gi"
+}
+
+variable kafka_data_size {
+  type = string
+  default = "4Gi"
 }

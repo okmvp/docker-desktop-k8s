@@ -4,5 +4,13 @@ domain: okmvp.internal
 repository: https://github.com/okmvp/docker-desktop-k8s.git
 revision:   main
 
-metallb:
-  addresses: ""
+network:
+  gateway:
+    type: nginx  # nginx, istio(progress), consul(todo), haproxy(todo)
+
+  metallb:
+    addresses: ""
+
+data:
+  kafka:
+    enabled: false
