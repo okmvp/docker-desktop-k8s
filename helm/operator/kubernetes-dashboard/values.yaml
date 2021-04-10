@@ -8,7 +8,7 @@ dashboard:
   ingress:
     enabled: true
     annotations:
-      kubernetes.io/ingress.class: istio
+      kubernetes.io/ingress.class: {{ .Values.network.ingress.type }}
     paths:
     - "/*"
     hosts:
