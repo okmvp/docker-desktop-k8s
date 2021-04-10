@@ -13,6 +13,12 @@ spec:
     path: helm/operator/kubernetes-dashboard
     helm:
       parameters:
+      - name:  dashboard.ingress.annotations.kubernetes\.io\/ingress\.class
+        value: {{ .Values.network.ingress.type }}
+      {{- if eq .Values.network.ingress.type "istio" }}
+      - name:  dashboard.ingress.paths[0]
+        value: "/*"
+      {{- end }}
       - name:  dashboard.ingress.hosts[0]
         value: k8s.{{ .Values.domain }}
       valueFiles:

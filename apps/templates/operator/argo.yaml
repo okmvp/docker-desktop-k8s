@@ -13,10 +13,14 @@ spec:
     path: helm/operator/argo/
     helm:
       parameters:
+      - name:  cd.server.ingress.annotations.kubernetes\.io\/ingress\.class
+        value: {{ .Values.network.ingress.type }}
       - name:  cd.server.ingress.hosts[0]
         value: argo.{{ .Values.domain }}
-      - name:  cd.server.ingress.kubernetes\.io\/ingress\.class
-        value: {{ .Values.network.ingress.type }}
+      {{- if eq .Values.network.ingress.type "istio" }}
+      - name:  cd.server.ingress.paths[0]
+        value: "/*"
+      {{- end }}
       - name:  cd.server.config.url
         value: http://argo.{{ .Values.domain }}
       valueFiles:
