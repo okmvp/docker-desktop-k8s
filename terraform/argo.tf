@@ -52,7 +52,9 @@ resource helm_release argo {
 
 resource null_resource apps {
   depends_on = [
-    helm_release.argo
+    helm_release.argo,
+    kubernetes_persistent_volume_claim.zookeeper,
+    kubernetes_persistent_volume.zookeeper,
   ]
 
   triggers = {
@@ -89,14 +91,17 @@ data template_file apps {
         path: apps/
         helm:
           parameters:
+          # Common
           - name:  domain
             value: ${var.domain}
           - name:  repository
             value: ${var.apps_repository}
           - name:  revision
             value: ${var.apps_revision}
+          # Metal-LB
           - name:  metallb.addresses
             value: https://${var.metallb_addresses}
+          # Kafka
           - name:  kafka.zookeeper.persistence.dataDirPath
             value: ${local.zookeeper_data_path}
           - name:  kafka.zookeeper.persistence.dataDirSize
@@ -123,10 +128,4 @@ data template_file apps {
         - Validate=true
     EOF
   EOT
-}
-
-locals {
-  zookeeper_data_path = pathexpand("${var.kubepv_root}/zookeeper/data")
-  zookeeper_log_path  = pathexpand("${var.kubepv_root}/zookeeper/log")
-  kafka_data_path     = pathexpand("${var.kubepv_root}/kafka/data")
 }

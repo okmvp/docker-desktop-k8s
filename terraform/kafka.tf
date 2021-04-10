@@ -9,7 +9,42 @@ resource kubernetes_namespace kafka {
 }
 
 
-/*
+################################################################
+##
+##  Local Directories for Kafka
+##
+
+locals {
+  zookeeper_data_path = pathexpand("${var.kubepv_root}/zookeeper/data")
+  zookeeper_log_path  = pathexpand("${var.kubepv_root}/zookeeper/log")
+  kafka_data_path     = pathexpand("${var.kubepv_root}/kafka/data")
+}
+
+resource null_resource kafka_local_directories {
+  triggers = {
+    args = join(" ", [
+      local.zookeeper_data_path,
+      local.zookeeper_log_path,
+      local.kafka_data_path,
+    ])
+
+  }
+
+  provisioner local-exec {
+    command = <<-EOF
+      mkdir -p ${self.triggers.args}
+    EOF
+  }
+
+  provisioner local-exec {
+    when    = destroy
+    command = <<-EOF
+      rm -rf ${self.triggers.args}
+    EOF
+  }
+}
+
+
 ################################################################
 ##
 ##  Kubernetes Persistent Volumes
@@ -19,40 +54,65 @@ resource kubernetes_namespace kafka {
 ##  zookeeper
 
 resource kubernetes_persistent_volume_claim zookeeper {
+  depends_on = [
+    null_resource.kafka_local_directories
+  ]
+
   metadata {
     # name: volumeclaimtemplates-name-statefulset-name-replica-index
-    name = "datadir-kafka-cp-zookeeper-0"
+    name = "datadir-kafka-cp-zookeeper-0-x"
     namespace = kubernetes_namespace.kafka.metadata.0.name
   }
   spec {
     access_modes = ["ReadWriteOnce"]
     resources {
       requests = {
-        storage = "${var.zookeeper_data_size}Gi"
+        storage = var.zookeeper_data_size
       }
     }
     volume_name = kubernetes_persistent_volume.zookeeper.metadata[0].name
+    storage_class_name = "local-storage"
   }
+  wait_until_bound = true
 }
 
 resource kubernetes_persistent_volume zookeeper {
+  depends_on = [
+    null_resource.kafka_local_directories
+  ]
+
   metadata {
-    name = "zookeeper-0"
+    name = "zookeeper-0-x"
   }
 
   spec {
     access_modes = ["ReadWriteOnce"]
     capacity = {
-      storage = "${var.zookeeper_data_size}Gi"
+      storage = var.zookeeper_data_size
     }
-    persistent_volume_source {
-      host_path {
-        path = pathexpand("${var.kubepv_root}/zookeeper/data")
+    node_affinity {
+      required {
+        node_selector_term {
+          match_expressions {
+            key = "kubernetes.io/hostname"
+            operator = "In"
+            values = ["docker-desktop"]
+          }
+        }
       }
     }
+    persistent_volume_reclaim_policy = "Recycle"
+    persistent_volume_source {
+      local {
+        path = local.zookeeper_data_path
+      }
+    }
+    storage_class_name = "local-storage"
+    volume_mode = "Filesystem"
   }
 }
 
+/*
 resource kubernetes_persistent_volume_claim zookeeper_log {
   metadata {
     # name: volumeclaimtemplates-name-statefulset-name-replica-index
