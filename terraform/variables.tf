@@ -57,6 +57,11 @@ variable metallb_addresses {
 ##--------------------------------------------------------------
 ##  Kafka
 
+variable kafka_enabled {
+  type = bool
+  default = true
+}
+
 variable zookeeper_data_size {
   type = string
   default = "1Gi"

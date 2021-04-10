@@ -103,7 +103,7 @@ data template_file apps {
             value: https://${var.metallb_addresses}
           # Kafka
           - name:  data.kafka.enabled
-            value: "false"
+            value: "${var.kafka_enabled}"
           valueFiles:
           - values.yaml
           version: v2
