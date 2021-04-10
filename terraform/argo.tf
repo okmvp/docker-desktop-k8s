@@ -100,7 +100,7 @@ data template_file apps {
             value: ${var.apps_revision}
           # Metal-LB
           - name:  network.metallb.addresses
-            value: https://${var.metallb_addresses}
+            value: ${var.metallb_addresses}
           # Kafka
           - name:  data.kafka.enabled
             value: "${var.kafka_enabled}"
