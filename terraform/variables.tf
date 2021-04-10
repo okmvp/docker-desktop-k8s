@@ -51,8 +51,7 @@ variable argo_admin_modified {
 
 variable metallb_addresses {
   type = string
-  #default = "192.168.0.0/24"
-  default = "192.168.0.5-192.168.0.250"
+  default = "192.168.0.0/24"
 }
 
 ##--------------------------------------------------------------
