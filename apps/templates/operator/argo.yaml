@@ -16,7 +16,7 @@ spec:
       - name:  cd.server.ingress.hosts[0]
         value: argo.{{ .Values.domain }}
       - name:  cd.server.ingress.kubernetes\.io\/ingress\.class
-        value: {{ .Values.netwrok.ingress.type }}
+        value: {{ .Values.network.ingress.type }}
       - name:  cd.server.config.url
         value: http://argo.{{ .Values.domain }}
       valueFiles:
