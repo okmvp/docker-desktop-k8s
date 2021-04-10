@@ -1,7 +1,0 @@
-nginx:
-  controller:
-    hostPort:
-      enabled: true
-    service:
-      externalIPs:
-      - 0.0.0.0
