@@ -1,8 +1,8 @@
-{{- if eq .Values.network.ingress.type "istio" }}
+{{- if eq .Values.network.ingress.type "nginx" }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: istio
+  name: ingress-nginx
   namespace: argo
   labels:
     argo.okmvp.internal/category: network
@@ -11,14 +11,14 @@ spec:
   source:
     repoURL: {{ .Values.repository }}
     targetRevision: {{ .Values.revision }}
-    path: helm/network/istio
+    path: helm/network/nginx
     helm:
       valueFiles:
       - values.yaml
       version: v2
   destination:
     server: https://kubernetes.default.svc
-    namespace: istio-system
+    namespace: ingress-nginx
   syncPolicy:
     #automated:
     #  prune: true
@@ -26,17 +26,4 @@ spec:
     syncOptions:
     - Validate=true
     - CreateNamespace=true
-  ignoreDifferences:
-  - group: apps
-    kind: MutatingWebhookConfiguration
-    name: istio-sidecar-injector
-    namespace: istio-system
-    jsonPointers:
-    - /webhooks/0/clientConfig/caBundle
-  - group: apps
-    kind: MutatingWebhookConfiguration
-    name: istiod-istio-system
-    namespace: istio-system
-    jsonPointers:
-    - /webhooks/0/clientConfig/caBundle
 {{- end }}

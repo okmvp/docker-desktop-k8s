@@ -47,6 +47,14 @@ variable argo_admin_modified {
 }
 
 ##--------------------------------------------------------------
+##  Ingress
+
+variable ingress_type {
+  type = string
+  default = "nginx"
+}
+
+##--------------------------------------------------------------
 ##  Metal-LB
 
 variable metallb_addresses {
