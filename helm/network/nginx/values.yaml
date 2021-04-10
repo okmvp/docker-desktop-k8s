@@ -1,1 +1,4 @@
-
+nginx:
+  controller:
+    hostPort:
+      enabled: true
