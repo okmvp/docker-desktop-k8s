@@ -3,6 +3,8 @@ locals {
 }
 
 resource kubernetes_namespace kafka {
+  count = var.kafka_enabled ? 1 : 0
+
   metadata {
     name = local.kafka_namespace
   }
@@ -21,6 +23,8 @@ locals {
 }
 
 resource null_resource kafka_local_directories {
+  count = var.kafka_enabled ? 1 : 0
+
   triggers = {
     args = join(" ", [
       local.zookeeper_data_path,
@@ -54,6 +58,8 @@ resource null_resource kafka_local_directories {
 ##  zookeeper
 
 resource kubernetes_persistent_volume_claim zookeeper {
+  count = var.kafka_enabled ? 1 : 0
+
   depends_on = [
     null_resource.kafka_local_directories
   ]
@@ -61,7 +67,7 @@ resource kubernetes_persistent_volume_claim zookeeper {
   metadata {
     # name: volumeclaimtemplates-name-statefulset-name-replica-index
     name = "datadir-kafka-cp-zookeeper-0"
-    namespace = kubernetes_namespace.kafka.metadata.0.name
+    namespace = kubernetes_namespace.kafka.0.metadata.0.name
   }
   spec {
     access_modes = ["ReadWriteOnce"]
@@ -70,13 +76,15 @@ resource kubernetes_persistent_volume_claim zookeeper {
         storage = var.zookeeper_data_size
       }
     }
-    volume_name = kubernetes_persistent_volume.zookeeper.metadata[0].name
+    volume_name = kubernetes_persistent_volume.zookeeper.0.metadata[0].name
     storage_class_name = "local-storage"
   }
   wait_until_bound = true
 }
 
 resource kubernetes_persistent_volume zookeeper {
+  count = var.kafka_enabled ? 1 : 0
+
   depends_on = [
     null_resource.kafka_local_directories
   ]
@@ -112,6 +120,8 @@ resource kubernetes_persistent_volume zookeeper {
 }
 
 resource kubernetes_persistent_volume_claim zookeeper_log {
+  count = var.kafka_enabled ? 1 : 0
+
   depends_on = [
     null_resource.kafka_local_directories
   ]
@@ -119,7 +129,7 @@ resource kubernetes_persistent_volume_claim zookeeper_log {
   metadata {
     # name: volumeclaimtemplates-name-statefulset-name-replica-index
     name = "datalogdir-kafka-cp-zookeeper-0"
-    namespace = kubernetes_namespace.kafka.metadata.0.name
+    namespace = kubernetes_namespace.kafka.0.metadata.0.name
   }
   spec {
     access_modes = ["ReadWriteOnce"]
@@ -128,13 +138,15 @@ resource kubernetes_persistent_volume_claim zookeeper_log {
         storage = var.zookeeper_log_size
       }
     }
-    volume_name = kubernetes_persistent_volume.zookeeper_log.metadata[0].name
+    volume_name = kubernetes_persistent_volume.zookeeper_log.0.metadata[0].name
     storage_class_name = "local-storage"
   }
   wait_until_bound = true
 }
 
 resource kubernetes_persistent_volume zookeeper_log {
+  count = var.kafka_enabled ? 1 : 0
+
   depends_on = [
     null_resource.kafka_local_directories
   ]
@@ -173,6 +185,8 @@ resource kubernetes_persistent_volume zookeeper_log {
 ##  kafka
 
 resource kubernetes_persistent_volume_claim kafka {
+  count = var.kafka_enabled ? 1 : 0
+
   depends_on = [
     null_resource.kafka_local_directories
   ]
@@ -180,7 +194,7 @@ resource kubernetes_persistent_volume_claim kafka {
   metadata {
     # name: volumeclaimtemplates-name-statefulset-name-replica-index
     name = "datadir-0-kafka-cp-kafka-0"
-    namespace = kubernetes_namespace.kafka.metadata.0.name
+    namespace = kubernetes_namespace.kafka.0.metadata.0.name
   }
   spec {
     access_modes = ["ReadWriteOnce"]
@@ -189,13 +203,15 @@ resource kubernetes_persistent_volume_claim kafka {
         storage = var.kafka_data_size
       }
     }
-    volume_name = kubernetes_persistent_volume.kafka.metadata[0].name
+    volume_name = kubernetes_persistent_volume.kafka.0.metadata[0].name
     storage_class_name = "local-storage"
   }
   wait_until_bound = true
 }
 
 resource kubernetes_persistent_volume kafka {
+  count = var.kafka_enabled ? 1 : 0
+
   depends_on = [
     null_resource.kafka_local_directories
   ]
