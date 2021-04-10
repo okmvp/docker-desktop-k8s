@@ -98,6 +98,9 @@ data template_file apps {
             value: ${var.apps_repository}
           - name:  revision
             value: ${var.apps_revision}
+          # Ingress
+          - name:  network.ingress.type
+            value: ${var.ingress_type}
           # Metal-LB
           - name:  network.metallb.addresses
             value: ${var.metallb_addresses}

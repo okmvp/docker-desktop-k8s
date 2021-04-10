@@ -5,7 +5,7 @@ repository: https://github.com/okmvp/docker-desktop-k8s.git
 revision:   main
 
 network:
-  gateway:
+  ingress:
     type: nginx  # nginx, istio(progress), consul(todo), haproxy(todo)
 
   metallb:
