@@ -102,18 +102,8 @@ data template_file apps {
           - name:  metallb.addresses
             value: https://${var.metallb_addresses}
           # Kafka
-          - name:  kafka.zookeeper.persistence.dataDirPath
-            value: ${local.zookeeper_data_path}
-          - name:  kafka.zookeeper.persistence.dataDirSize
-            value: ${var.zookeeper_data_size}
-          - name:  kafka.zookeeper.persistence.dataLogDirPath
-            value: ${local.zookeeper_log_path}
-          - name:  kafka.zookeeper.persistence.dataLogDirSize
-            value: ${var.zookeeper_log_size}
-          - name:  kafka.kafka.persistence.path
-            value: ${local.kafka_data_path}
-          - name:  kafka.kafka.persistence.size
-            value: ${var.kafka_data_size}
+          - name:  data.kafka.enabled
+            value: "false"
           valueFiles:
           - values.yaml
           version: v2

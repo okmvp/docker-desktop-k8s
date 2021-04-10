@@ -22,7 +22,7 @@ spec:
       - name:  apps.domain
         value: {{ .Values.domain }}
       - name:  apps.metallb.addresses
-        value: {{ .Values.metallb.addresses }}
+        value: {{ .Values.network.metallb.addresses }}
       valueFiles:
       - values.yaml
       version: v2

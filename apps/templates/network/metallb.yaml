@@ -14,7 +14,7 @@ spec:
     helm:
       parameters:
       - name:  metallb.configInline.address-pools[0].addresses[0]
-        value: {{ .Values.metallb.addresses }}
+        value: {{ .Values.network.metallb.addresses }}
       valueFiles:
       - values.yaml
       version: v2

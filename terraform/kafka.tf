@@ -60,7 +60,7 @@ resource kubernetes_persistent_volume_claim zookeeper {
 
   metadata {
     # name: volumeclaimtemplates-name-statefulset-name-replica-index
-    name = "datadir-kafka-cp-zookeeper-0-x"
+    name = "datadir-kafka-cp-zookeeper-0"
     namespace = kubernetes_namespace.kafka.metadata.0.name
   }
   spec {
@@ -82,9 +82,8 @@ resource kubernetes_persistent_volume zookeeper {
   ]
 
   metadata {
-    name = "zookeeper-0-x"
+    name = "zookeeper-0"
   }
-
   spec {
     access_modes = ["ReadWriteOnce"]
     capacity = {
@@ -112,8 +111,11 @@ resource kubernetes_persistent_volume zookeeper {
   }
 }
 
-/*
 resource kubernetes_persistent_volume_claim zookeeper_log {
+  depends_on = [
+    null_resource.kafka_local_directories
+  ]
+
   metadata {
     # name: volumeclaimtemplates-name-statefulset-name-replica-index
     name = "datalogdir-kafka-cp-zookeeper-0"
@@ -123,28 +125,47 @@ resource kubernetes_persistent_volume_claim zookeeper_log {
     access_modes = ["ReadWriteOnce"]
     resources {
       requests = {
-        storage = "${var.zookeeper_log_size}Gi"
+        storage = var.zookeeper_log_size
       }
     }
     volume_name = kubernetes_persistent_volume.zookeeper_log.metadata[0].name
+    storage_class_name = "local-storage"
   }
+  wait_until_bound = true
 }
 
 resource kubernetes_persistent_volume zookeeper_log {
+  depends_on = [
+    null_resource.kafka_local_directories
+  ]
+
   metadata {
     name = "zookeeper-log-0"
   }
-
   spec {
     access_modes = ["ReadWriteOnce"]
     capacity = {
-      storage = "${var.zookeeper_log_size}Gi"
+      storage = var.zookeeper_log_size
     }
-    persistent_volume_source {
-      host_path {
-        path = pathexpand("${var.kubepv_root}/zookeeper/log")
+    node_affinity {
+      required {
+        node_selector_term {
+          match_expressions {
+            key = "kubernetes.io/hostname"
+            operator = "In"
+            values = ["docker-desktop"]
+          }
+        }
       }
     }
+    persistent_volume_reclaim_policy = "Recycle"
+    persistent_volume_source {
+      local {
+        path = local.zookeeper_log_path
+      }
+    }
+    storage_class_name = "local-storage"
+    volume_mode = "Filesystem"
   }
 }
 
@@ -152,6 +173,10 @@ resource kubernetes_persistent_volume zookeeper_log {
 ##  kafka
 
 resource kubernetes_persistent_volume_claim kafka {
+  depends_on = [
+    null_resource.kafka_local_directories
+  ]
+
   metadata {
     # name: volumeclaimtemplates-name-statefulset-name-replica-index
     name = "datadir-0-kafka-cp-kafka-0"
@@ -161,29 +186,46 @@ resource kubernetes_persistent_volume_claim kafka {
     access_modes = ["ReadWriteOnce"]
     resources {
       requests = {
-        storage = "${var.kafka_data_size}Gi"
+        storage = var.kafka_data_size
       }
     }
     volume_name = kubernetes_persistent_volume.kafka.metadata[0].name
+    storage_class_name = "local-storage"
   }
+  wait_until_bound = true
 }
 
 resource kubernetes_persistent_volume kafka {
+  depends_on = [
+    null_resource.kafka_local_directories
+  ]
+
   metadata {
     name = "kafka-0-0"
   }
-
   spec {
     access_modes = ["ReadWriteOnce"]
     capacity = {
-      storage = "${var.kafka_data_size}Gi"
+      storage = var.kafka_data_size
     }
-    persistent_volume_source {
-      host_path {
-        path = pathexpand("${var.kubepv_root}/kafka/data")
+    node_affinity {
+      required {
+        node_selector_term {
+          match_expressions {
+            key = "kubernetes.io/hostname"
+            operator = "In"
+            values = ["docker-desktop"]
+          }
+        }
       }
     }
+    persistent_volume_reclaim_policy = "Recycle"
+    persistent_volume_source {
+      local {
+        path = local.kafka_data_path
+      }
+    }
+    storage_class_name = "local-storage"
+    volume_mode = "Filesystem"
   }
 }
-
-*/
