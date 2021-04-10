@@ -11,7 +11,13 @@ cd:
       hosts:
       - ""
       paths:
+      {{- if eq .Values.network.ingress.type "istio" }}
       - "/*"
+      {{- else if eq .Values.network.ingress.type "nginx" }}
+      - "/"
+      {{- else }}
+      # nothing for compile error
+      {{- end }}
     config:
       url: ""
       repositories: |
