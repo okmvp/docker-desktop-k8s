@@ -1,0 +1,84 @@
+apm:
+  apmConfig:
+    apm-server.yml: |
+      apm-server:
+        host: "0.0.0.0:8200"
+      queue: {}
+      output.kafka:
+        enabled: true
+        hosts:
+        - kafka-cp-kafka-0.kafka-cp-kafka-headless.kafka.svc:9092
+        version: 2.0.0
+        topic: apm
+        compression: lz4
+  ingress:
+    enabled: true
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    path: /
+    hosts:
+    - apm.okmvp.internal
+
+filebeat:
+  filebeatConfig:
+    filebeat.yml: |
+      filebeat.autodiscover:
+        providers:
+        - type: kubernetes
+          hints.enabled: true
+      output.kafka:
+        hosts:
+        - kafka-cp-kafka-0.kafka-cp-kafka-headless.kafka.svc:9092
+        version: 2.0.0
+        topic: filebeat
+        compression: lz4
+      monitoring:
+        enabled: true
+        elasticsearch:
+          hosts:
+          - http://elasticsearch.elasticsearch.svc:9200
+
+logstash:
+  logstashConfig: {}
+  #  logstash.yml: |
+  #    #key:
+  #    #  nestedkey: value
+  #    #xpack.monitoring.elasticsearch.hosts: http://elasticsearch.data-elastic.svc.cluster.local:9200
+  #  log4j2.properties: |
+  #    key = value
+  logstashPipeline:
+    logstash.conf: |
+      input {
+        kafka {
+          bootstrap_servers => "kafka-cp-kafka-0.kafka-cp-kafka-headless.kafka.svc:9092"
+          codec => json
+          consumer_threads => 1
+          decorate_events => true
+          topics => [ "apm", "filebeat" ]
+        }
+      }
+      filter {
+        mutate {
+          remove_field => [ "container", "kafka" ]
+        }
+      }
+      output {
+        if [@metadata][kafka][topic] == "apm" {
+          elasticsearch {
+            hosts => "elasticsearch.elasticsearch.svc"
+            manage_template => false
+            index => "apm-%{+YYYY.MM.dd}"
+            timeout => 60
+          }
+        }
+        if [@metadata][kafka][topic] == "filebeat" {
+          elasticsearch {
+            hosts => "elasticsearch.elasticsearch.svc.cluster.local"
+            manage_template => false
+            index => "filebeat-%{+YYYY.MM.dd}"
+            timeout => 60
+          }
+        }
+      }
+
