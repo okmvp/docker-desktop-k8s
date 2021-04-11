@@ -6,7 +6,7 @@
 ##--------------------------------------------------------------
 ##  APM-Server
 
-apm:
+apm-server:
   fullnameOverride: apm
   apmConfig:
     apm-server.yml: |

@@ -15,13 +15,13 @@ spec:
       parameters:
       - name:  apm-server.ingress.enabled
         value: "true"
-      - name:  apm.ingress.annotations.kubernetes\.io\/ingress\.class
+      - name:  apm-server.ingress.annotations.kubernetes\.io\/ingress\.class
         value: {{ .Values.network.ingress.type }}
       {{- if eq .Values.network.ingress.type "istio" }}
-      - name:  apm.ingress.path
+      - name:  apm-server.ingress.path
         value: "/*"
       {{- end }}
-      - name:  apm.ingress.hosts[0]
+      - name:  apm-server.ingress.hosts[0]
         value: apm.{{ .Values.domain }}
       valueFiles:
       - values.yaml
