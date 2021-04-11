@@ -13,17 +13,7 @@ spec:
     path: helm/observer/elastic-beats/
     helm:
       parameters:
-      - name:  apm-server.ingress.enabled
-        value: "true"
-      - name:  apm-server.ingress.annotations.kubernetes\.io\/ingress\.class
-        value: {{ .Values.network.ingress.type }}
-      {{- if eq .Values.network.ingress.type "istio" }}
-      - name:  apm-server.ingress.path
-        value: "/*"
-      {{- end }}
-      - name:  apm-server.ingress.hosts[0]
-        value: apm.{{ .Values.domain }}
-      - name:  apm-server.service.type
+      - name:  apm.service.type
         value: LoadBalancer
       valueFiles:
       - values.yaml
