@@ -7,6 +7,7 @@
 ##  APM-Server
 
 apm:
+  fullnameOverride: apm
   apmConfig:
     apm-server.yml: |
       apm-server:
@@ -33,6 +34,7 @@ apm:
 ##  Filebeat
 
 filebeat:
+  fullnameOverride: filebeat
   filebeatConfig:
     filebeat.yml: |
       filebeat.autodiscover:
@@ -56,6 +58,7 @@ filebeat:
 ##  Logstash
 
 logstash:
+  fullnameOverride: logstash
   logstashConfig: {}
   #  logstash.yml: |
   #    #key:
@@ -96,6 +99,14 @@ logstash:
             timeout => 60
           }
         }
+        if [@metadata][kafka][topic] == "metricbeat" {
+          elasticsearch {
+            hosts => "elasticsearch.elasticsearch.svc"
+            manage_template => false
+            index => "metricbeat-%{+YYYY.MM.dd}"
+            timeout => 60
+          }
+        }
       }
 
 
@@ -103,6 +114,7 @@ logstash:
 ##  Metricbeat
 
 metricbeat:
+  fullnameOverride: metricbeat
   daemonset:
     metricbeatConfig:
       metricbeat.yml: |
