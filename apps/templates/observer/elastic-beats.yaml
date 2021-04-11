@@ -23,6 +23,8 @@ spec:
       {{- end }}
       - name:  apm-server.ingress.hosts[0]
         value: apm.{{ .Values.domain }}
+      - name:  apm-server.service.type
+        value: LoadBalancer
       valueFiles:
       - values.yaml
       version: v2

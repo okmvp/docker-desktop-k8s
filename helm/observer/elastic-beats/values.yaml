@@ -20,14 +20,6 @@ apm:
         version: 2.0.0
         topic: apm
         compression: lz4
-  ingress:
-    enabled: true
-    annotations: {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-    path: /
-    hosts:
-    - apm.okmvp.internal
 
 
 ##--------------------------------------------------------------
