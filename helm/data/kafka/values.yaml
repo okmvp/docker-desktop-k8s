@@ -30,3 +30,12 @@ kafka:
   cp-control-center:
     configurationOverrides:
       "replication.factor": "1"
+
+ingress:
+  enabled: true
+  annotations: {}
+  labels: {}
+  hosts:
+  - kafka.okmvp.internal
+  paths:
+  - /

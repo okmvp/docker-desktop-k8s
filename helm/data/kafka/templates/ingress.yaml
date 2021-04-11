@@ -1,0 +1,42 @@
+{{ if .Values.ingress.enabled -}}
+{{- $serviceName := "kafka-cp-control-center" -}}
+{{- $servicePort := 9021 -}}
+{{- $paths := .Values.ingress.paths -}}
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: "ingress"
+  labels:
+  {{- range $key, $value := .Values.ingress.labels }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+
+  annotations:
+{{- with .Values.ingress.annotations }}
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  rules:
+  {{- if .Values.ingress.hosts }}
+  {{- range $host := .Values.ingress.hosts }}
+    - host: {{ $host }}
+      http:
+        paths:
+  {{- range $path := $paths }}
+          - path: {{ $path }}
+            backend:
+              serviceName: {{ $serviceName }}
+              servicePort: {{ $servicePort }}
+  {{- end -}}
+  {{- end -}}
+  {{- else }}
+    - http:
+        paths:
+  {{- range $path := $paths }}
+          - path: {{ $path }}
+            backend:
+              serviceName: {{ $serviceName }}
+              servicePort: {{ $servicePort }}
+  {{- end -}}
+  {{- end -}}
+{{- end -}}
