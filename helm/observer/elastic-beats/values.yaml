@@ -37,7 +37,7 @@ filebeat:
         enabled: true
         elasticsearch:
           hosts:
-          - http://elasticsearch.elasticsearch.svc.cluster.local:9200
+          - http://elasticsearch.elasticsearch.svc:9200
 
 logstash:
   logstashConfig: {}
@@ -66,7 +66,7 @@ logstash:
       output {
         if [@metadata][kafka][topic] == "apm" {
           elasticsearch {
-            hosts => "elasticsearch.elasticsearch.svc.cluster.local"
+            hosts => "elasticsearch.elasticsearch.svc"
             manage_template => false
             index => "apm-%{+YYYY.MM.dd}"
             timeout => 60
@@ -74,7 +74,7 @@ logstash:
         }
         if [@metadata][kafka][topic] == "filebeat" {
           elasticsearch {
-            hosts => "elasticsearch.elasticsearch.svc.cluster.local"
+            hosts => "elasticsearch.elasticsearch.svc"
             manage_template => false
             index => "filebeat-%{+YYYY.MM.dd}"
             timeout => 60
