@@ -106,7 +106,7 @@ data template_file apps {
             value: ${var.metallb_addresses}
           # Data / Elasticsearch
           - name:  data.elascticsearch.persistence.enabled
-            value: true
+            value: "true"
           - name:  data.elascticsearch.persistence.dataDirSize
             value: ${var.elasticsearch_data_size}
           # Data / Kafka
