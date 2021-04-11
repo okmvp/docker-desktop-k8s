@@ -12,6 +12,11 @@ spec:
     targetRevision: {{ .Values.revision }}
     path: helm/data/elasticsearch/
     helm:
+      parameters:
+      - name:  elasticsearch.volumeClaimTemplate.resources.requests.storage
+        value: {{ .Values.data.elasticsearch.persistence.dataDirSize }}
+      - name:  elasticsearch.persistence.enabled
+        value: {{ .Values.data.elasticsearch.persistence.enabled }}
       valueFiles:
       - values.yaml
       version: v2

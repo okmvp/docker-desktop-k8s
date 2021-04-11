@@ -5,8 +5,8 @@ elasticsearch:
     accessModes: [ "ReadWriteOnce" ]
     resources:
       requests:
-        storage: {{ .Values.data.elasticsearch.persistence.dataDirSize }}
+        storage: 4Gi
   persistence:
-    enabled: {{ .Values.data.elasticsearch.persistence.enabled }}
+    enabled: false
   clusterHealthCheckParams: "wait_for_status=yellow&timeout=1s"
   fullnameOverride: elasticsearch
