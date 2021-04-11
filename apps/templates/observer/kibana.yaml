@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: {{ .Values.repository }}
     targetRevision: {{ .Values.revision }}
-    path: helm/data/kafka/
+    path: helm/observer/kibana/
     helm:
       parameters:
       - name:  kibana.ingress.annotations.kubernetes\.io\/ingress\.class
