@@ -91,22 +91,35 @@ data template_file apps {
         path: apps/
         helm:
           parameters:
-          # Common
+          # Global
           - name:  domain
             value: ${var.domain}
           - name:  repository
             value: ${var.apps_repository}
           - name:  revision
             value: ${var.apps_revision}
-          # Ingress
+          # Network / Ingress
           - name:  network.ingress.type
             value: ${var.ingress_type}
-          # Metal-LB
+          # Network / Metal-LB
           - name:  network.metallb.addresses
             value: ${var.metallb_addresses}
-          # Kafka
+          # Data / Elasticsearch
+          - name:  data.elascticsearch.persistence.enabled
+            value: "true"
+          - name:  data.elasticsearch.persistence.dataDirSize
+            value: ${var.elasticsearch_data_size}
+          # Data / Kafka
           - name:  data.kafka.enabled
             value: "${var.kafka_enabled}"
+          - name:  data.kafka.persistence.enabled
+            value: "true"
+          - name:  data.kafka.persistence.zookeeper.dataDirSize
+            value: ${var.zookeeper_data_size}
+          - name:  data.kafka.persistence.zookeeper.dataLogDirSize
+            value: ${var.zookeeper_log_size}
+          - name:  data.kafka.persistence.kafka.dataDirSize
+            value: ${var.kafka_data_size}
           valueFiles:
           - values.yaml
           version: v2

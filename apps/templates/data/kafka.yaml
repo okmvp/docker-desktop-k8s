@@ -14,6 +14,16 @@ spec:
     path: helm/data/kafka/
     helm:
       parameters:
+      - name:  kafka.cp-zookeeper.persistence.enabled
+        value: {{ .Values.data.kafka.persistence.enabled | quote }}
+      - name:  kafka.cp-zookeeper.persistence.dataDirSize
+        value: {{ .Values.data.kafka.persistence.zookeeper.dataDirSize }}
+      - name:  kafka.cp-zookeeper.persistence.dataLogDirSize
+        value: {{ .Values.data.kafka.persistence.zookeeper.dataLogDirSize }}
+      - name:  kafka.cp-kafka.persistence.enabled
+        value: {{ .Values.data.kafka.persistence.enabled | quote }}
+      - name:  kafka.cp-kafka.persistence.size
+        value: {{ .Values.data.kafka.persistence.kafka.dataDirSize }}
       - name:  ingress.annotations.kubernetes\.io\/ingress\.class
         value: {{ .Values.network.ingress.type }}
       - name:  ingress.hosts[0]

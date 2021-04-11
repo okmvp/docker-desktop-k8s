@@ -1,0 +1,22 @@
+apiVersion: v2
+name: elastic-beats
+description: A Helm chart for Kubernetes
+type: application
+version: 0.1.0
+appVersion: 1.16.0
+
+# https://github.com/elastic/helm-charts
+dependencies:
+- name: apm-server
+  version: 7.12.0
+  repository: https://helm.elastic.co
+  alias: apm
+- name: filebeat
+  version: 7.12.0
+  repository: https://helm.elastic.co
+- name: logstash
+  version: 7.12.0
+  repository: https://helm.elastic.co
+- name: metricbeat
+  version: 7.12.0
+  repository: https://helm.elastic.co

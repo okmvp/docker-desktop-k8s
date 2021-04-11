@@ -1,0 +1,190 @@
+################################################################
+##
+##  Elastic Stacks
+##
+
+##--------------------------------------------------------------
+##  APM-Server
+
+apm:
+  fullnameOverride: apm
+  apmConfig:
+    apm-server.yml: |
+      apm-server:
+        host: "0.0.0.0:8200"
+      queue: {}
+      output.kafka:
+        enabled: true
+        hosts:
+        - kafka-cp-kafka-0.kafka-cp-kafka-headless.kafka.svc:9092
+        version: 2.0.0
+        topic: apm
+        compression: lz4
+  ingress:
+    enabled: true
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    path: /
+    hosts:
+    - apm.okmvp.internal
+
+
+##--------------------------------------------------------------
+##  Filebeat
+
+filebeat:
+  fullnameOverride: filebeat
+  filebeatConfig:
+    filebeat.yml: |
+      filebeat.autodiscover:
+        providers:
+        - type: kubernetes
+          hints.enabled: true
+      output.kafka:
+        hosts:
+        - kafka-cp-kafka-0.kafka-cp-kafka-headless.kafka.svc:9092
+        version: 2.0.0
+        topic: filebeat
+        compression: lz4
+      monitoring:
+        enabled: true
+        elasticsearch:
+          hosts:
+          - http://elasticsearch.elasticsearch.svc:9200
+
+
+##--------------------------------------------------------------
+##  Logstash
+
+logstash:
+  fullnameOverride: logstash
+  logstashConfig: {}
+  #  logstash.yml: |
+  #    #key:
+  #    #  nestedkey: value
+  #    #xpack.monitoring.elasticsearch.hosts: http://elasticsearch.data-elastic.svc.cluster.local:9200
+  #  log4j2.properties: |
+  #    key = value
+  logstashPipeline:
+    logstash.conf: |
+      input {
+        kafka {
+          bootstrap_servers => "kafka-cp-kafka-0.kafka-cp-kafka-headless.kafka.svc:9092"
+          codec => json
+          consumer_threads => 1
+          decorate_events => true
+          topics => [ "apm", "filebeat", "metricbeat" ]
+        }
+      }
+      filter {
+        mutate {
+          remove_field => [ "container", "kafka" ]
+        }
+      }
+      output {
+        if [@metadata][kafka][topic] == "apm" {
+          elasticsearch {
+            hosts => "elasticsearch.elasticsearch.svc"
+            manage_template => false
+            index => "apm-%{+YYYY.MM.dd}"
+            timeout => 60
+          }
+        }
+        if [@metadata][kafka][topic] == "filebeat" {
+          elasticsearch {
+            hosts => "elasticsearch.elasticsearch.svc"
+            manage_template => false
+            index => "filebeat-%{+YYYY.MM.dd}"
+            timeout => 60
+          }
+        }
+        if [@metadata][kafka][topic] == "metricbeat" {
+          elasticsearch {
+            hosts => "elasticsearch.elasticsearch.svc"
+            manage_template => false
+            index => "metricbeat-%{+YYYY.MM.dd}"
+            timeout => 60
+          }
+        }
+      }
+
+
+##--------------------------------------------------------------
+##  Metricbeat
+
+metricbeat:
+  fullnameOverride: metricbeat
+  daemonset:
+    metricbeatConfig:
+      metricbeat.yml: |
+        metricbeat.modules:
+        - module: kubernetes
+          metricsets:
+            - container
+            - node
+            - pod
+            - system
+            - volume
+          period: 10s
+          host: "${NODE_NAME}"
+          hosts: ["https://${NODE_NAME}:10250"]
+          bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+          ssl.verification_mode: "none"
+          # If using Red Hat OpenShift remove ssl.verification_mode entry and
+          # uncomment these settings:
+          #ssl.certificate_authorities:
+            #- /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
+          processors:
+          - add_kubernetes_metadata: ~
+        - module: kubernetes
+          enabled: true
+          metricsets:
+            - event
+        - module: system
+          period: 10s
+          metricsets:
+            - cpu
+            - load
+            - memory
+            - network
+            - process
+            - process_summary
+          processes: ['.*']
+          process.include_top_n:
+            by_cpu: 5
+            by_memory: 5
+        - module: system
+          period: 1m
+          metricsets:
+            - filesystem
+            - fsstat
+          processors:
+          - drop_event.when.regexp:
+              system.filesystem.mount_point: '^/(sys|cgroup|proc|dev|etc|host|lib)($|/)'
+        output.kafka:
+          hosts:
+          - kafka-cp-kafka-0.kafka-cp-kafka-headless.kafka.svc:9092
+          version: 2.0.0
+          topic: metricbeat
+          compression: lz4
+  deployment:
+    metricbeatConfig:
+      metricbeat.yml: |
+        metricbeat.modules:
+        - module: kubernetes
+          enabled: true
+          metricsets:
+            - state_node
+            - state_deployment
+            - state_replicaset
+            - state_pod
+            - state_container
+          period: 10s
+          hosts: ["${KUBE_STATE_METRICS_HOSTS}"]
+        output.kafka:
+          hosts:
+          - kafka-cp-kafka-0.kafka-cp-kafka-headless.kafka.svc:9092
+          version: 2.0.0
+          topic: metricbeat
+          compression: lz4

@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kibana
+  namespace: argo
+  labels:
+    argo.okmvp.internal/category: observer
+spec:
+  project: default
+  source:
+    repoURL: {{ .Values.repository }}
+    targetRevision: {{ .Values.revision }}
+    path: helm/observer/kibana/
+    helm:
+      parameters:
+      - name:  kibana.ingress.enabled
+        value: "true"
+      - name:  kibana.ingress.annotations.kubernetes\.io\/ingress\.class
+        value: {{ .Values.network.ingress.type }}
+      - name:  kibana.hosts[0].host
+        value: kibana.{{ .Values.domain }}
+      {{- if eq .Values.network.ingress.type "istio" }}
+      - name:  kibana.hosts[0].paths[0].path
+        value: "/*"
+      {{- end }}
+      valueFiles:
+      - values.yaml
+      version: v2
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kibana
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true

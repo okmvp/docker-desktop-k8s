@@ -31,7 +31,6 @@ resource null_resource kafka_local_directories {
       local.zookeeper_log_path,
       local.kafka_data_path,
     ])
-
   }
 
   provisioner local-exec {

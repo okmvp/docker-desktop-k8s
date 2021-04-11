@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: elasticsearch
+  namespace: argo
+  labels:
+    argo.okmvp.internal/category: data
+spec:
+  project: default
+  source:
+    repoURL: {{ .Values.repository }}
+    targetRevision: {{ .Values.revision }}
+    path: helm/data/elasticsearch/
+    helm:
+      parameters:
+      - name:  elasticsearch.volumeClaimTemplate.resources.requests.storage
+        value: {{ .Values.data.elasticsearch.persistence.dataDirSize }}
+      - name:  elasticsearch.persistence.enabled
+        value: {{ .Values.data.elasticsearch.persistence.enabled | quote }}
+      valueFiles:
+      - values.yaml
+      version: v2
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: elasticsearch
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true

@@ -2,7 +2,7 @@ kafka:
   cp-zookeeper:
     servers: 1
     persistence:
-      enabled: true
+      enabled: false
       dataDirSize: 1Gi
       dataLogDirSize: 4Gi
   cp-kafka:
@@ -12,7 +12,7 @@ kafka:
       "default.replication.factor": "1"
       "min.insync.replicas": "1"
     persistence:
-      enabled: true
+      enabled: false
       size: 4Gi
       disksPerBroker: 1
     prometheus:

@@ -63,6 +63,14 @@ variable metallb_addresses {
 }
 
 ##--------------------------------------------------------------
+##  Elastic Stack
+
+variable elasticsearch_data_size {
+  type = string
+  default = "4Gi"
+}
+
+##--------------------------------------------------------------
 ##  Kafka
 
 variable kafka_enabled {
@@ -84,3 +92,4 @@ variable kafka_data_size {
   type = string
   default = "4Gi"
 }
+
