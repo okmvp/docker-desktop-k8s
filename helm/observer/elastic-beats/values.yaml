@@ -7,7 +7,7 @@
 ##  APM-Server
 
 apm:
-  fullnameOverride: apm-server  # TODO(ghilbut): because of https://github.com/elastic/helm-charts/issues/1138
+  fullnameOverride: apm
   apmConfig:
     apm-server.yml: |
       apm-server:
