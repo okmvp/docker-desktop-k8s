@@ -107,7 +107,7 @@ data template_file apps {
           # Data / Elasticsearch
           - name:  data.elascticsearch.persistence.enabled
             value: "true"
-          - name:  data.elascticsearch.persistence.dataDirSize
+          - name:  data.elasticsearch.persistence.dataDirSize
             value: ${var.elasticsearch_data_size}
           # Data / Kafka
           - name:  data.kafka.enabled
