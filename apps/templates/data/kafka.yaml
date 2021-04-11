@@ -13,6 +13,15 @@ spec:
     targetRevision: {{ .Values.revision }}
     path: helm/data/kafka/
     helm:
+      parameters:
+      - name:  ingress.annotations.kubernetes\.io\/ingress\.class
+        value: {{ .Values.network.ingress.type }}
+      - name:  ingress.hosts[0]
+        value: kafka.{{ .Values.domain }}
+      {{- if eq .Values.network.ingress.type "istio" }}
+      - name:  ingress.paths[0]
+        value: "/*"
+      {{- end }}
       valueFiles:
       - values.yaml
       version: v2
