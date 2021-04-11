@@ -2,9 +2,9 @@ kafka:
   cp-zookeeper:
     servers: 1
     persistence:
-      enabled: true
-      dataDirSize: 1Gi
-      dataLogDirSize: 4Gi
+      enabled: {{ .Values.data.kafka.persistence.enabled }}
+      dataDirSize: {{ .Values.data.kafka.persistence.zookeeper.dataDirSize }}
+      dataLogDirSize: {{ .Values.data.kafka.persistence.zookeeper.dataLogDirSize }}
   cp-kafka:
     brokers: 1
     configurationOverrides:
@@ -12,8 +12,8 @@ kafka:
       "default.replication.factor": "1"
       "min.insync.replicas": "1"
     persistence:
-      enabled: true
-      size: 4Gi
+      enabled: {{ .Values.data.kafka.persistence.enabled }}
+      size: {{ .Values.data.kafka.persistence.kafka.dataDirSize }}
       disksPerBroker: 1
     prometheus:
       jmx:

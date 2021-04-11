@@ -1,0 +1,12 @@
+elasticsearch:
+  replicas: 1
+  minimumMasterNodes: 1
+  volumeClaimTemplate:
+    accessModes: [ "ReadWriteOnce" ]
+    resources:
+      requests:
+        storage: {{ .Values.data.elasticsearch.persistence.dataDirSize }}
+  persistence:
+    enabled: {{ .Values.data.elasticsearch.persistence.enabled }}
+  clusterHealthCheckParams: "wait_for_status=yellow&timeout=1s"
+  fullnameOverride: elasticsearch
