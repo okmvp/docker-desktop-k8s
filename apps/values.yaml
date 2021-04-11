@@ -11,7 +11,7 @@ network:
     addresses: ""
 
 data:
-  elascticsearch:
+  elasticsearch:
     persistence:
       enabled: false
       dataDirSize: 4Gi
