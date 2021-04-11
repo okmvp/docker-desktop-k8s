@@ -10,7 +10,7 @@ dependencies:
 - name: apm-server
   version: 7.12.0
   repository: https://helm.elastic.co
-  alias: apm  # TODO(ghilbut): because of https://github.com/elastic/helm-charts/issues/1138
+  # alias: apm  # TODO(ghilbut): because of https://github.com/elastic/helm-charts/issues/1138
 - name: filebeat
   version: 7.12.0
   repository: https://helm.elastic.co
