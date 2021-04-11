@@ -74,7 +74,7 @@ logstash:
           codec => json
           consumer_threads => 1
           decorate_events => true
-          topics => [ "apm", "filebeat" ]
+          topics => [ "apm", "filebeat", "metricbeat" ]
         }
       }
       filter {
