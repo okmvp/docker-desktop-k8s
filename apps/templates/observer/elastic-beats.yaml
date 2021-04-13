@@ -12,6 +12,17 @@ spec:
     targetRevision: {{ .Values.revision }}
     path: helm/observer/elastic-beats/
     helm:
+      parameters:
+      - name:  apm-server.ingress.enabled
+        value: "true"
+      {{- if eq .Values.network.ingress.type "istio" }}
+      - name:  apm-server.ingress.annotations.kubernetes\.io\/ingress\.class
+        value: istio
+      - name:  apm-server.ingress.path
+        value: "/*"
+      {{- end }}
+      - name:  apm-server.ingress.hosts[0]
+        value: eapm.{{ .Values.domain }}
       valueFiles:
       - values.yaml
       version: v2
