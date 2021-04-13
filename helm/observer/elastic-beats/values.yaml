@@ -20,6 +20,13 @@ apm-server:
         version: 2.0.0
         topic: apm
         compression: lz4
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+    path: /
+    hosts:
+    - eapm.okmvp.internal
 
 
 ##--------------------------------------------------------------
