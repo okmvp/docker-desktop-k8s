@@ -1,5 +1,0 @@
-nginx:
-  controller:
-    service:
-      annotations:
-        metallb.universe.tf/allow-shared-ip: docker-desktop
