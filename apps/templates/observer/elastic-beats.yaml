@@ -12,9 +12,6 @@ spec:
     targetRevision: {{ .Values.revision }}
     path: helm/observer/elastic-beats/
     helm:
-      parameters:
-      - name:  apm-server.service.type
-        value: LoadBalancer
       valueFiles:
       - values.yaml
       version: v2
