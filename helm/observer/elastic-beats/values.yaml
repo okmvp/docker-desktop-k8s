@@ -27,6 +27,10 @@ apm-server:
     path: /
     hosts:
     - eapm.okmvp.internal
+  service:
+    type: LoadBalancer
+    annotations:
+      metallb.universe.tf/allow-shared-ip: docker-desktop
 
 
 ##--------------------------------------------------------------
