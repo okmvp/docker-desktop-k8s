@@ -53,8 +53,10 @@ resource helm_release argo {
 resource null_resource apps {
   depends_on = [
     helm_release.argo,
+    kubernetes_persistent_volume_claim.elastic,
     kubernetes_persistent_volume_claim.zookeeper,
-    kubernetes_persistent_volume.zookeeper,
+    kubernetes_persistent_volume_claim.zookeeper_log,
+    kubernetes_persistent_volume_claim.kafka,
   ]
 
   triggers = {

@@ -59,10 +59,6 @@ resource null_resource kafka_local_directories {
 resource kubernetes_persistent_volume_claim zookeeper {
   count = var.kafka_enabled ? 1 : 0
 
-  depends_on = [
-    null_resource.kafka_local_directories
-  ]
-
   metadata {
     # name: volumeclaimtemplates-name-statefulset-name-replica-index
     name = "datadir-kafka-cp-zookeeper-0"
@@ -120,10 +116,6 @@ resource kubernetes_persistent_volume zookeeper {
 
 resource kubernetes_persistent_volume_claim zookeeper_log {
   count = var.kafka_enabled ? 1 : 0
-
-  depends_on = [
-    null_resource.kafka_local_directories
-  ]
 
   metadata {
     # name: volumeclaimtemplates-name-statefulset-name-replica-index
@@ -185,10 +177,6 @@ resource kubernetes_persistent_volume zookeeper_log {
 
 resource kubernetes_persistent_volume_claim kafka {
   count = var.kafka_enabled ? 1 : 0
-
-  depends_on = [
-    null_resource.kafka_local_directories
-  ]
 
   metadata {
     # name: volumeclaimtemplates-name-statefulset-name-replica-index
