@@ -6,7 +6,7 @@
 ##--------------------------------------------------------------
 ##  APM-Server
 
-apm:
+apm-server:
   fullnameOverride: apm
   apmConfig:
     apm-server.yml: |
@@ -21,13 +21,16 @@ apm:
         topic: apm
         compression: lz4
   ingress:
-    enabled: true
-    annotations: {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
+    enabled: false
+    annotations:
+      kubernetes.io/ingress.class: nginx
     path: /
     hosts:
-    - apm.okmvp.internal
+    - eapm.okmvp.internal
+  service:
+    type: LoadBalancer
+    annotations:
+      metallb.universe.tf/allow-shared-ip: docker-desktop
 
 
 ##--------------------------------------------------------------

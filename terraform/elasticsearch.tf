@@ -49,10 +49,6 @@ resource null_resource elastic_local_directories {
 ##  elastic
 
 resource kubernetes_persistent_volume_claim elastic {
-  depends_on = [
-    null_resource.elastic_local_directories
-  ]
-
   metadata {
     # name: volumeclaimtemplates-name-statefulset-name-replica-index
     name = "elasticsearch-elasticsearch-0"

@@ -8,6 +8,7 @@ network:
   ingress:
     type: nginx  # nginx, istio(progress), consul(todo), haproxy(todo)
   metallb:
+    enabled: true
     addresses: ""
 
 data:
