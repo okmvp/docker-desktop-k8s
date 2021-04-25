@@ -1,5 +1,9 @@
 kibana:
   elasticsearchHosts: "http://elasticsearch.elasticsearch.svc:9200"
+  kibanaConfig:
+    kibana.yml: |
+      xpack.security.enabled: true
+      xpack.monitoring.enabled: true
   ingress:
     enabled: false
     annotations: {}

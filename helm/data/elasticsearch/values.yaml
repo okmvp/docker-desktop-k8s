@@ -1,6 +1,9 @@
 elasticsearch:
   replicas: 1
   minimumMasterNodes: 1
+  esConfig:
+    elasticsearch.yml: |
+      xpack.security.enabled: true
   volumeClaimTemplate:
     accessModes: [ "ReadWriteOnce" ]
     resources:
