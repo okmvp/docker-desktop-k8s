@@ -4,6 +4,7 @@ elasticsearch:
   esConfig:
     elasticsearch.yml: |
       xpack.security.enabled: true
+      xpack.monitoring.enabled: true
   volumeClaimTemplate:
     accessModes: [ "ReadWriteOnce" ]
     resources:
@@ -11,5 +12,9 @@ elasticsearch:
         storage: 4Gi
   persistence:
     enabled: false
+  service:
+    type: LoadBalancer
+    annotations: 
+      metallb.universe.tf/allow-shared-ip: docker-desktop
   clusterHealthCheckParams: "wait_for_status=yellow&timeout=1s"
   fullnameOverride: elasticsearch
