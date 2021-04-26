@@ -176,7 +176,11 @@ metricbeat:
           version: 2.0.0
           topic: metricbeat
           compression: lz4
-        xpack.enabled: true
+        monitoring:
+          enabled: true
+          elasticsearch:
+            hosts:
+            - http://elasticsearch.elasticsearch.svc:9200
   deployment:
     metricbeatConfig:
       metricbeat.yml: |
@@ -197,4 +201,8 @@ metricbeat:
           version: 2.0.0
           topic: metricbeat
           compression: lz4
-        xpack.enabled: true
+        monitoring:
+          enabled: true
+          elasticsearch:
+            hosts:
+            - http://elasticsearch.elasticsearch.svc:9200
