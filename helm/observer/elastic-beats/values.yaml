@@ -20,6 +20,11 @@ apm-server:
         version: 2.0.0
         topic: apm
         compression: lz4
+      monitoring:
+        enabled: true
+        elasticsearch:
+          hosts:
+          - http://elasticsearch.elasticsearch.svc:9200
   ingress:
     enabled: false
     annotations:
