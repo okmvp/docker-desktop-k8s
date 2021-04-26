@@ -33,6 +33,7 @@ apm-server:
     co.elastic.logs/json.message_key: message
     co.elastic.logs/fileset.stdout: access
     co.elastic.logs/fileset.stderr: error
+    co.elastic.logs/exclude_lines: "request ok"
   ingress:
     enabled: false
     annotations:
