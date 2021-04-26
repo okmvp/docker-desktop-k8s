@@ -171,6 +171,7 @@ metricbeat:
           version: 2.0.0
           topic: metricbeat
           compression: lz4
+        xpack.enabled: true
   deployment:
     metricbeatConfig:
       metricbeat.yml: |
@@ -191,3 +192,4 @@ metricbeat:
           version: 2.0.0
           topic: metricbeat
           compression: lz4
+        xpack.enabled: true
