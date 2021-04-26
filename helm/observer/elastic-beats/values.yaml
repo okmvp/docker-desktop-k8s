@@ -79,6 +79,7 @@ logstash:
       input {
         kafka {
           bootstrap_servers => "kafka-cp-kafka-0.kafka-cp-kafka-headless.kafka.svc:9092"
+          codec => json
           consumer_threads => 1
           decorate_events => true
           topics => [ "apm", "filebeat", "metricbeat" ]
@@ -94,7 +95,6 @@ logstash:
           elasticsearch {
             hosts => "elasticsearch.elasticsearch.svc"
             index => "apm-%{[agent][version]}-%{[processor][event]}-%{+YYYY.MM.dd}"
-            codec => json
           }
         }
         if [@metadata][kafka][topic] == "filebeat" {
@@ -111,7 +111,6 @@ logstash:
             manage_template => false
             index => "metricbeat-%{[agent][version]}-%{+YYYY.MM.dd}"
             timeout => 60
-            codec => json
           }
         }
       }
