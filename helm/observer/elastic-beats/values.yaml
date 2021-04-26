@@ -13,13 +13,16 @@ apm-server:
       apm-server:
         host: "0.0.0.0:8200"
       queue: {}
-      output.kafka:
-        enabled: true
+      output.elasticsearch:
         hosts:
-        - kafka-cp-kafka-0.kafka-cp-kafka-headless.kafka.svc:9092
-        version: 2.0.0
-        topic: apm
-        compression: lz4
+        - http://elasticsearch.elasticsearch.svc:9200
+      #output.kafka:
+      #  enabled: true
+      #  hosts:
+      #  - kafka-cp-kafka-0.kafka-cp-kafka-headless.kafka.svc:9092
+      #  version: 2.0.0
+      #  topic: apm
+      #  compression: lz4
       monitoring:
         enabled: true
         elasticsearch:
@@ -58,12 +61,15 @@ filebeat:
         providers:
         - type: kubernetes
           hints.enabled: true
-      output.kafka:
+      output.elasticsearch:
         hosts:
-        - kafka-cp-kafka-0.kafka-cp-kafka-headless.kafka.svc:9092
-        version: 2.0.0
-        topic: filebeat
-        compression: lz4
+        - http://elasticsearch.elasticsearch.svc:9200
+      #output.kafka:
+      #  hosts:
+      #  - kafka-cp-kafka-0.kafka-cp-kafka-headless.kafka.svc:9092
+      #  version: 2.0.0
+      #  topic: filebeat
+      #  compression: lz4
       monitoring:
         enabled: true
         elasticsearch:
@@ -177,12 +183,15 @@ metricbeat:
           processors:
           - drop_event.when.regexp:
               system.filesystem.mount_point: '^/(sys|cgroup|proc|dev|etc|host|lib)($|/)'
-        output.kafka:
+        output.elasticsearch:
           hosts:
-          - kafka-cp-kafka-0.kafka-cp-kafka-headless.kafka.svc:9092
-          version: 2.0.0
-          topic: metricbeat
-          compression: lz4
+          - http://elasticsearch.elasticsearch.svc:9200
+        #output.kafka:
+        #  hosts:
+        #  - kafka-cp-kafka-0.kafka-cp-kafka-headless.kafka.svc:9092
+        #  version: 2.0.0
+        #  topic: metricbeat
+        #  compression: lz4
         monitoring:
           enabled: true
           elasticsearch:
@@ -202,12 +211,15 @@ metricbeat:
             - state_container
           period: 10s
           hosts: ["${KUBE_STATE_METRICS_HOSTS}"]
-        output.kafka:
+        output.elasticsearch:
           hosts:
-          - kafka-cp-kafka-0.kafka-cp-kafka-headless.kafka.svc:9092
-          version: 2.0.0
-          topic: metricbeat
-          compression: lz4
+          - http://elasticsearch.elasticsearch.svc:9200
+        #output.kafka:
+        #  hosts:
+        #  - kafka-cp-kafka-0.kafka-cp-kafka-headless.kafka.svc:9092
+        #  version: 2.0.0
+        #  topic: metricbeat
+        #  compression: lz4
         monitoring:
           enabled: true
           elasticsearch:
