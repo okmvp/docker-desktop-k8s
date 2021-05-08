@@ -75,7 +75,7 @@ variable elasticsearch_data_size {
 
 variable kafka_enabled {
   type = bool
-  default = true
+  default = false
 }
 
 variable zookeeper_data_size {
