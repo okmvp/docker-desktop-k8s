@@ -1,0 +1,40 @@
+operator:
+  fullnameOverride: operator
+  cr:
+    create: true
+    namespace: kiali
+    spec:
+      istio_namespace: istio-system
+      auth:
+        strategy: anonymous
+      deployment:
+        accessible_namespaces:
+        - "**"
+      override_ingress_yaml:
+        metadata:
+          annotations:
+            kubernetes.io/ingress.class: istio
+        spec:
+          rules:
+          - http:
+              paths:
+              - path: /kiali/*
+                backend:
+                  serviceName: kiali
+                  servicePort: 20001
+
+kiali-server:
+  kiali_route_url: ""
+  istio_namespace: istio-system
+  auth:
+    strategy: anonymous
+  deployment:
+    ingress_enabled: false
+#    override_ingress_yaml:
+#      metadata:
+#        annotations:
+#          kubernetes.io/ingress.class: istio
+#        spec:
+
+ingress:
+  host: kiali.okmvp.internal
